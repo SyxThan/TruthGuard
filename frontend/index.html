@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TruthGuard - Xác Minh Tin Tức</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    
+    <link rel="stylesheet" href="./assets/css/index.css" />
+    <!-- Trong <head> -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+</head>
+<body class="bg-gradient-to-br from-emerald-50 via-cyan-50 to-blue-50 min-h-screen">
+    <!-- Decorative Blobs -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    <!-- Navigation Bar -->
+    <div id="nav-placeholder"></div>
+    
+    <main class="container mx-auto px-4 py-12 relative z-10">
+        <!-- Hero Section -->
+        <section class="mb-16 text-center fade-in-up">
+            <div class="inline-flex items-center gap-2 bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full mb-6 font-semibold">
+                <i data-feather="zap" class="w-4 h-4"></i>
+                <span>Xác minh bởi AI & Con người</span>
+            </div>
+            <h1 class="text-6xl md:text-7xl font-black text-gray-800 mb-6 leading-tight">
+                Luôn cập nhật với<br>
+                <span class="gradient-text">Tin tức đã xác minh</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Hệ thống xác minh được hỗ trợ bởi AI của chúng tôi giúp bạn phân biệt tin thật khỏi thông tin sai lệch.
+            </p>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="mb-16 fade-in-up" style="animation-delay: 0.2s;">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="stat-card glass-card p-6 rounded-2xl text-center">
+                    <div class="text-4xl font-black text-emerald-600 mb-2">15,432</div>
+                    <div class="text-gray-600 font-semibold">Tin đã kiểm</div>
+                </div>
+                <div class="stat-card glass-card p-6 rounded-2xl text-center">
+                    <div class="text-4xl font-black text-blue-600 mb-2">98.5%</div>
+                    <div class="text-gray-600 font-semibold">Độ chính xác</div>
+                </div>
+                <div class="stat-card glass-card p-6 rounded-2xl text-center">
+                    <div class="text-4xl font-black text-purple-600 mb-2">50K+</div>
+                    <div class="text-gray-600 font-semibold">Người dùng</div>
+                </div>
+                <div class="stat-card glass-card p-6 rounded-2xl text-center">
+                    <div class="text-4xl font-black text-orange-600 mb-2">24/7</div>
+                    <div class="text-gray-600 font-semibold">Hoạt động</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Bar -->
+        <div class="max-w-3xl mx-auto mb-12 fade-in-up" style="animation-delay: 0.3s;">
+            <div class="search-wrapper">
+                <div class="relative">
+                    <input type="text" 
+                        placeholder="Tìm kiếm tin tức, chủ đề, hoặc nguồn..." 
+                        class="search-input w-full px-8 py-6 pr-20 rounded-3xl border-2 border-gray-200 focus:outline-none focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 shadow-lg text-lg">
+                    <button class="search-btn absolute right-3 top-1/2 -translate-y-1/2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-4 rounded-2xl hover:shadow-xl transition">
+                        <i data-feather="search" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="flex flex-wrap justify-center gap-3 mb-12 fade-in-up" style="animation-delay: 0.4s;">
+            <button class="category-pill active glass-card px-6 py-3 rounded-2xl font-semibold text-sm">
+                Tất cả
+            </button>
+            <button class="category-pill glass-card px-6 py-3 rounded-2xl font-semibold text-sm text-gray-700">
+                🏛️ Chính trị
+            </button>
+            <button class="category-pill glass-card px-6 py-3 rounded-2xl font-semibold text-sm text-gray-700">
+                🏥 Sức khỏe
+            </button>
+            <button class="category-pill glass-card px-6 py-3 rounded-2xl font-semibold text-sm text-gray-700">
+                💻 Công nghệ
+            </button>
+            <button class="category-pill glass-card px-6 py-3 rounded-2xl font-semibold text-sm text-gray-700">
+                🔬 Khoa học
+            </button>
+            <button class="category-pill glass-card px-6 py-3 rounded-2xl font-semibold text-sm text-gray-700">
+                💼 Kinh doanh
+            </button>
+            <button class="category-pill glass-card px-6 py-3 rounded-2xl font-semibold text-sm text-gray-700">
+                ⚽ Thể thao
+            </button>
+        </div>
+
+        <!-- News Feed -->
+        <section class="fade-in-up" style="animation-delay: 0.5s;">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">Tin tức mới nhất</h2>
+                <button class="text-emerald-600 font-semibold flex items-center gap-2 hover:gap-3 transition-all">
+                    Xem tất cả
+                    <i data-feather="arrow-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- News Card 1 - REAL -->
+                <article class="glass-card rounded-3xl overflow-hidden shine-effect">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=450&fit=crop" alt="News" class="w-full h-56 object-cover">
+                        <span class="badge-real absolute top-4 right-4 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
+                            <i data-feather="check-circle" class="w-4 h-4"></i>
+                            THẬT
+                        </span>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-lg text-xs font-bold">Công nghệ</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3 leading-tight">Đột phá trong năng lượng tái tạo</h3>
+                        <p class="text-gray-600 mb-4 leading-relaxed">Các nhà khoa học đạt hiệu suất kỷ lục trong công nghệ pin mặt trời có thể cách mạng hóa năng lượng sạch.</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                            <div class="flex items-center gap-2">
+                                <i data-feather="clock" class="w-4 h-4"></i>
+                                <span>2 giờ trước</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-feather="user" class="w-4 h-4"></i>
+                                <span class="font-semibold">VnExpress</span>
+                            </div>
+                            <a href="article.html" class="inline-flex items-center gap-2 text-emerald-600 font-semibold hover:gap-3 transition-all group">
+                            Đọc thêm
+                            <i data-feather="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- News Card 2 - FAKE -->
+                <article class="glass-card rounded-3xl overflow-hidden shine-effect">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=800&h=450&fit=crop" alt="News" class="w-full h-56 object-cover">
+                        <span class="badge-fake absolute top-4 right-4 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
+                            <i data-feather="x-circle" class="w-4 h-4"></i>
+                            GIẢ
+                        </span>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="bg-red-100 text-red-700 px-3 py-1 rounded-lg text-xs font-bold">Chính trị</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3 leading-tight">Chính trị gia bị bắt trong bê bối</h3>
+                        <p class="text-gray-600 mb-4 leading-relaxed">Cáo buộc về quan chức chính phủ nổi lên, nhưng xác minh cho thấy bằng chứng bị thao túng.</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                            <div class="flex items-center gap-2">
+                                <i data-feather="clock" class="w-4 h-4"></i>
+                                <span>5 giờ trước</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-feather="user" class="w-4 h-4"></i>
+                                <span class="font-semibold">Nguồn không rõ</span>
+                            </div>
+                            <a href="article.html" class="inline-flex items-center gap-2 text-emerald-600 font-semibold hover:gap-3 transition-all group">
+                            Đọc thêm
+                            <i data-feather="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- News Card 3 - UNCERTAIN -->
+                <article class="glass-card rounded-3xl overflow-hidden shine-effect">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=450&fit=crop" alt="News" class="w-full h-56 object-cover">
+                        <span class="badge-uncertain absolute top-4 right-4 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
+                            <i data-feather="help-circle" class="w-4 h-4"></i>
+                            CHƯA RÕ
+                        </span>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-lg text-xs font-bold">Sức khỏe</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3 leading-tight">Nghiên cứu sức khỏe mới</h3>
+                        <p class="text-gray-600 mb-4 leading-relaxed">Nghiên cứu gây tranh cãi gợi ý lợi ích tiềm năng của chất bổ sung phổ biến, nhưng cần thêm nghiên cứu.</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                            <div class="flex items-center gap-2">
+                                <i data-feather="clock" class="w-4 h-4"></i>
+                                <span>1 ngày trước</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-feather="user" class="w-4 h-4"></i>
+                                <span class="font-semibold">Tạp chí Y học</span>
+                            </div>
+                            <a href="article.html" class="inline-flex items-center gap-2 text-emerald-600 font-semibold hover:gap-3 transition-all group">
+                            Đọc thêm
+                            <i data-feather="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- More News Cards -->
+                <article class="glass-card rounded-3xl overflow-hidden shine-effect">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=450&fit=crop" alt="News" class="w-full h-56 object-cover">
+                        <span class="badge-real absolute top-4 right-4 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
+                            <i data-feather="check-circle" class="w-4 h-4"></i>
+                            THẬT
+                        </span>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-xs font-bold">Kinh doanh</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3 leading-tight">Thị trường chứng khoán tăng mạnh</h3>
+                        <p class="text-gray-600 mb-4 leading-relaxed">Các chỉ số chính tăng điểm sau thông báo chính sách kinh tế mới của chính phủ.</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                            <div class="flex items-center gap-2">
+                                <i data-feather="clock" class="w-4 h-4"></i>
+                                <span>3 giờ trước</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-feather="user" class="w-4 h-4"></i>
+                                <span class="font-semibold">Cafef</span>
+                            </div>
+                            <a href="article.html" class="inline-flex items-center gap-2 text-emerald-600 font-semibold hover:gap-3 transition-all group">
+                            Đọc thêm
+                            <i data-feather="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="glass-card rounded-3xl overflow-hidden shine-effect">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=450&fit=crop" alt="News" class="w-full h-56 object-cover">
+                        <span class="badge-real absolute top-4 right-4 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
+                            <i data-feather="check-circle" class="w-4 h-4"></i>
+                            THẬT
+                        </span>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-xs font-bold">Khoa học</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3 leading-tight">Phát hiện hành tinh mới giống Trái Đất</h3>
+                        <p class="text-gray-600 mb-4 leading-relaxed">Các nhà thiên văn học phát hiện ngoại hành tinh trong vùng có thể ở được với điều kiện tương tự Trái Đất.</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                            <div class="flex items-center gap-2">
+                                <i data-feather="clock" class="w-4 h-4"></i>
+                                <span>6 giờ trước</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-feather="user" class="w-4 h-4"></i>
+                                <span class="font-semibold">NASA</span>
+                            </div>
+                            <a href="article.html" class="inline-flex items-center gap-2 text-emerald-600 font-semibold hover:gap-3 transition-all group">
+                            Đọc thêm
+                            <i data-feather="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="glass-card rounded-3xl overflow-hidden shine-effect">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&h=450&fit=crop" alt="News" class="w-full h-56 object-cover">
+                        <span class="badge-fake absolute top-4 right-4 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
+                            <i data-feather="x-circle" class="w-4 h-4"></i>
+                            GIẢ
+                        </span>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-lg text-xs font-bold">Thể thao</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-3 leading-tight">Cầu thủ nổi tiếng chuyển nhượng</h3>
+                        <p class="text-gray-600 mb-4 leading-relaxed">Tin đồn về thương vụ chuyển nhượng kỷ lục không được xác nhận bởi các nguồn chính thức.</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                            <div class="flex items-center gap-2">
+                                <i data-feather="clock" class="w-4 h-4"></i>
+                                <span>4 giờ trước</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-feather="user" class="w-4 h-4"></i>
+                                <span class="font-semibold">Nguồn tin đồn</span>
+                            </div>
+                            <a href="article.html" class="inline-flex items-center gap-2 text-emerald-600 font-semibold hover:gap-3 transition-all group">
+                            Đọc thêm
+                            <i data-feather="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+        
+
+        
+        <!-- CTA Section -->
+        <section id="submit" class="mt-20 fade-in-up" style="animation-delay: 0.6s;">
+            <div class="hero-gradient rounded-3xl p-12 md:p-16 text-center text-white">
+                <div class="max-w-3xl mx-auto">
+                    <div class="inline-flex items-center justify-center w-20 h-20 bg-white bg-opacity-20 rounded-2xl mb-6">
+                        <i data-feather="send" class="w-10 h-10"></i>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-black mb-6">Bạn phát hiện tin đáng ngờ?</h2>
+                    <p class="text-xl mb-8 opacity-90">Gửi cho chúng tôi để được kiểm chứng miễn phí bởi AI và đội ngũ chuyên gia</p>
+                    <a href="submit.html" class="inline-flex items-center gap-3 bg-white text-emerald-600 px-8 py-4 rounded-2xl font-bold text-lg hover:scale-105 transition shadow-2xl">
+                        <i data-feather="plus-circle" class="w-6 h-6"></i>
+                        Kiểm chứng ngay
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="share" class="mt-20 fade-in-up" style="animation-delay: 0.6s;">
+            <div class="hero-gradient-alt rounded-3xl p-12 md:p-16 text-center text-white">
+                <div class="max-w-3xl mx-auto">
+                    <div class="inline-flex items-center justify-center w-20 h-20 bg-white bg-opacity-20 rounded-2xl mb-6">
+                        <i data-feather="send" class="w-10 h-10"></i>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-black mb-6">Bạn muốn chia sẻ tin tức này đến với cộng đồng?</h2>
+                    <p class="text-xl mb-8 opacity-90">Chúng tôi sẽ chia sẻ tin tức này đến với cộng đồng ngay</p>
+                    <a href="share.html" class="inline-flex items-center gap-3 bg-white text-emerald-600 px-8 py-4 rounded-2xl font-bold text-lg hover:scale-105 transition shadow-2xl">
+                        <i data-feather="plus-circle" class="w-6 h-6"></i>
+                        Đăng tin ngay
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="mt-20 fade-in-up" style="animation-delay: 0.7s;">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Cách thức hoạt động</h2>
+                <p class="text-xl text-gray-600">Quy trình xác minh tin tức chuyên nghiệp của chúng tôi</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+                        <i data-feather="upload" class="w-10 h-10 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">1. Gửi tin</h3>
+                    <p class="text-gray-600">Bạn gửi bài viết cần kiểm chứng qua form đơn giản</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+                        <i data-feather="cpu" class="w-10 h-10 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">2. AI phân tích</h3>
+                    <p class="text-gray-600">AI quét và so sánh với hàng nghìn nguồn đáng tin cậy</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+                        <i data-feather="users" class="w-10 h-10 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">3. Chuyên gia xem xét</h3>
+                    <p class="text-gray-600">Đội ngũ của chúng tôi xác minh lại kết quả từ AI</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+                        <i data-feather="check-circle" class="w-10 h-10 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">4. Kết quả</h3>
+                    <p class="text-gray-600">Nhận báo cáo chi tiết với bằng chứng và nguồn tham khảo</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 mt-20 glass-effect border-t border-gray-200">
+        <div class="container mx-auto px-4 py-8">
+            <div class="text-center">
+                <p class="text-gray-600">
+                    © 2025 TruthGuard. Cùng nhau xây dựng cộng đồng thông tin minh bạch.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        feather.replace();
+        
+        // Category filter functionality
+        const categoryBtns = document.querySelectorAll('.category-pill');
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all news cards
+        document.querySelectorAll('article').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Search functionality
+        const searchInput = document.querySelector('.search-input');
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                alert('Đang tìm kiếm: ' + this.value);
+            }
+        });
+        
+    </script>
+    <!-- Script để load navigation -->
+    <script>
+        fetch('navigation.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('nav-placeholder').innerHTML = data;
+                // Khởi tạo lại feather icons sau khi load nav
+                if (typeof feather !== 'undefined') {
+                    feather.replace();
+                }
+            });
+    </script>
+</body>
+</html>

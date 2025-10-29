@@ -1,0 +1,9 @@
+# Các thư viện cơ bản cho xử lý dữ liệu và tính toán
+pandas
+numpy
+scikit-learn  
+underthesea   
+joblib
+matplotlib
+seaborn
+passlib

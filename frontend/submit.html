@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi Tin Tức | TruthGuard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="./assets/css/submit.css">
+</head>
+<body class="bg-gradient-to-br from-emerald-50 via-cyan-50 to-blue-50 min-h-screen">
+    <!-- Decorative Blobs -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="relative z-10 glass-effect border-b border-gray-200">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition">
+                    <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg animate-float">
+                        <i data-feather="share-2" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <span class="text-2xl font-extrabold gradient-text">TruthGuard</span>
+                </a>
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="index.html" class="nav-link text-gray-700 hover:text-emerald-600 font-semibold flex items-center gap-2">
+                        <i data-feather="home" class="w-5 h-5"></i>
+                        Trang chủ
+                    </a>
+                    <a href="#" class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-6 py-3 rounded-xl font-bold hover:shadow-xl transition flex items-center gap-2">
+                        <i data-feather="bell" class="w-5 h-5"></i>
+                        Thông báo
+                    </a>
+                </div>
+                <button class="md:hidden text-gray-700 hover:text-emerald-600 transition" id="mobile-menu-btn">
+                    <i data-feather="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+            
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-16 max-w-6xl relative z-10">
+        <!-- Header Section -->
+        <div class="text-center mb-16 fade-in-up">
+            <div class="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-600 rounded-3xl mb-8 shadow-2xl animate-float">
+                <i data-feather="share-2" class="w-12 h-12 text-white"></i>
+            </div>
+            
+            <h1 class="text-6xl font-extrabold mb-6 gradient-text leading-tight">
+                Gửi Tin Tức Kiểm Chứng
+            </h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Cùng chống lại thông tin sai lệch. Gửi bài viết để được kiểm chứng bởi AI và đội ngũ chuyên gia.
+            </p>
+        </div>
+
+        <!-- Main Form Card -->
+        <div class="glass-effect rounded-3xl shadow-2xl overflow-hidden p-10 md:p-14 mb-10 fade-in-up" style="animation-delay: 0.2s;">
+            <form class="space-y-8">
+                <!-- Title Input -->
+                <div class="input-wrapper">
+                    <label for="title" class="block text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
+                        <i data-feather="type" class="w-5 h-5 text-emerald-500 input-icon"></i>
+                        <span>Tiêu đề tin tức</span>
+                    </label>
+                    <input type="text" id="title" name="title" required 
+                        class="custom-input w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 transition outline-none text-gray-800 text-lg"
+                        placeholder="Nhập tiêu đề bài viết...">
+                </div>
+                
+                <!-- URL Input -->
+                <div class="input-wrapper">
+                    <label for="url" class="block text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
+                        <i data-feather="link" class="w-5 h-5 text-emerald-500 input-icon"></i>
+                        <span>Đường dẫn nguồn</span>
+                    </label>
+                    <input type="url" id="url" name="url" required 
+                        class="custom-input w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 transition outline-none text-gray-800 text-lg"
+                        placeholder="https://example.com/bai-viet">
+                    <p class="mt-2 text-sm text-gray-500 flex items-center gap-1">
+                        <i data-feather="info" class="w-4 h-4"></i>
+                        Vui lòng cung cấp nguồn gốc chính thức của tin tức
+                    </p>
+                </div>
+                
+                <!-- Content Textarea -->
+                <div class="input-wrapper">
+                    <label for="content" class="block text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
+                        <i data-feather="file-text" class="w-5 h-5 text-emerald-500 input-icon"></i>
+                        <span>Nội dung tin tức</span>
+                    </label>
+                    <textarea id="content" name="content" rows="10" required
+                        class="custom-input w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 transition outline-none text-gray-800 text-lg resize-none"
+                        placeholder="Dán toàn bộ nội dung bài viết tại đây..."></textarea>
+                </div>
+                
+                <!-- Category Select -->
+                <div class="input-wrapper">
+                    <label for="category" class="block text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
+                        <i data-feather="tag" class="w-5 h-5 text-emerald-500 input-icon"></i>
+                        <span>Danh mục</span>
+                    </label>
+                    <select id="category" name="category" required
+                        class="custom-input w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 transition outline-none text-gray-800 text-lg cursor-pointer">
+                        <option value="" disabled selected>Chọn danh mục phù hợp</option>
+                        <option value="politics">🏛️ Chính trị</option>
+                        <option value="health">🏥 Sức khỏe</option>
+                        <option value="technology">💻 Công nghệ</option>
+                        <option value="science">🔬 Khoa học</option>
+                        <option value="business">💼 Kinh doanh</option>
+                        <option value="entertainment">🎬 Giải trí</option>
+                        <option value="sports">⚽ Thể thao</option>
+                        <option value="education">📚 Giáo dục</option>
+                        <option value="environment">🌍 Môi trường</option>
+                        <option value="other">📌 Khác</option>
+                    </select>
+                </div>
+                
+                <!-- Date and Author Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="input-wrapper">
+                        <label for="date" class="block text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
+                            <i data-feather="calendar" class="w-5 h-5 text-emerald-500 input-icon"></i>
+                            <span>Ngày xuất bản</span>
+                        </label>
+                        <input type="date" id="date" name="date" required
+                            class="custom-input w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 transition outline-none text-gray-800 text-lg cursor-pointer">
+                    </div>
+                    
+                    <div class="input-wrapper">
+                        <label for="author" class="block text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
+                            <i data-feather="user" class="w-5 h-5 text-emerald-500 input-icon"></i>
+                            <span>Tác giả (nếu biết)</span>
+                        </label>
+                        <input type="text" id="author" name="author"
+                            class="custom-input w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 transition outline-none text-gray-800 text-lg"
+                            placeholder="Tên tác giả">
+                    </div>
+                </div>
+                
+                <!-- Submit Button -->
+                <div class="pt-4">
+                    <button type="submit" 
+                        class="submit-btn w-full bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:from-emerald-600 hover:via-emerald-700 hover:to-teal-700 text-white font-bold py-5 px-8 rounded-2xl transition duration-300 flex items-center justify-center gap-3 text-lg shadow-xl">
+                        <i data-feather="send" class="w-6 h-6"></i>
+                        <span class="relative z-10">Gửi để kiểm chứng</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Process Steps -->
+        <div class="fade-in-up" style="animation-delay: 0.4s;">
+            <div class="text-center mb-10">
+                <h3 class="text-3xl font-bold text-gray-800 mb-3">Quy trình kiểm chứng</h3>
+                <p class="text-gray-600 text-lg">Tin tức của bạn sẽ được xử lý như thế nào?</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="step-card glass-effect p-8 rounded-3xl shadow-lg">
+                    <div class="flex items-center mb-5">
+                        <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 text-white flex items-center justify-center rounded-2xl shadow-lg mr-4">
+                            <i data-feather="cpu" class="w-8 h-8"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800">Phân tích AI</h4>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed">
+                        Hệ thống AI của chúng tôi sẽ quét nội dung, so sánh với các nguồn đã xác minh và cơ sở dữ liệu tin cậy.
+                    </p>
+                </div>
+                
+                <div class="step-card glass-effect p-8 rounded-3xl shadow-lg">
+                    <div class="flex items-center mb-5">
+                        <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 text-white flex items-center justify-center rounded-2xl shadow-lg mr-4">
+                            <i data-feather="users" class="w-8 h-8"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800">Xác minh thủ công</h4>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed">
+                        Đội ngũ chuyên gia kiểm chứng sự thật sẽ rà soát kỹ lưỡng kết quả từ AI và các nguồn tham khảo.
+                    </p>
+                </div>
+                
+                <div class="step-card glass-effect p-8 rounded-3xl shadow-lg">
+                    <div class="flex items-center mb-5">
+                        <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 text-white flex items-center justify-center rounded-2xl shadow-lg mr-4">
+                            <i data-feather="check-circle" class="w-8 h-8"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800">Công bố kết quả</h4>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed">
+                        Bạn sẽ nhận được thông báo chi tiết về kết quả kiểm chứng kèm theo mức độ chính xác và nguồn tham khảo.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Banner -->
+        <div class="mt-12 glass-effect p-8 rounded-3xl shadow-lg border-l-8 border-emerald-500 fade-in-up" style="animation-delay: 0.6s;">
+            <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
+                    <i data-feather="info" class="w-6 h-6 text-emerald-600"></i>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold text-gray-800 mb-2">Cam kết của chúng tôi</h4>
+                    <p class="text-gray-600 leading-relaxed">
+                        Mọi thông tin bạn gửi đều được bảo mật tuyệt đối. Chúng tôi chỉ sử dụng dữ liệu để phục vụ mục đích kiểm chứng sự thật và không chia sẻ với bên thứ ba. Kết quả kiểm chứng sẽ được công bố công khai để mọi người có thể tham khảo.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        feather.replace();
+        
+        // Image upload functionality
+        const uploadArea = document.getElementById('upload-area');
+        const imageInput = document.getElementById('image-input');
+        const uploadPrompt = document.getElementById('upload-prompt');
+        const previewContainer = document.getElementById('image-preview-container');
+        let uploadedImages = [];
+        
+        // Click to upload
+        uploadArea.addEventListener('click', (e) => {
+            if (e.target.closest('button') || e.target.closest('.remove-image')) return;
+            imageInput.click();
+        });
+        
+        // Drag and drop
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/'));
+            handleFiles(files);
+        });
+        
+        // File input change
+        imageInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            handleFiles(files);
+        });
+        
+        function handleFiles(files) {
+            files.forEach(file => {
+                if (file.size > 5 * 1024 * 1024) {
+                    alert(`Ảnh ${file.name} vượt quá 5MB`);
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    uploadedImages.push({
+                        name: file.name,
+                        url: e.target.result
+                    });
+                    displayImages();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+        
+        function displayImages() {
+            if (uploadedImages.length > 0) {
+                uploadPrompt.classList.add('hidden');
+                previewContainer.classList.remove('hidden');
+                
+                previewContainer.innerHTML = uploadedImages.map((img, index) => `
+                    <div class="image-preview relative group rounded-xl overflow-hidden shadow-lg">
+                        <img src="${img.url}" alt="${img.name}" class="w-full h-40 object-cover">
+                        <button type="button" onclick="removeImage(${index})" 
+                            class="remove-image absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center transition shadow-lg">
+                            <i data-feather="x" class="w-5 h-5"></i>
+                        </button>
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
+                            <p class="text-white text-xs font-semibold truncate">${img.name}</p>
+                        </div>
+                    </div>
+                `).join('');
+                
+                feather.replace();
+            } else {
+                uploadPrompt.classList.remove('hidden');
+                previewContainer.classList.add('hidden');
+            }
+        }
+        
+        window.removeImage = function(index) {
+            uploadedImages.splice(index, 1);
+            displayImages();
+        };
+        
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = mobileMenuBtn.querySelector('i');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.setAttribute('data-feather', 'menu');
+            } else {
+                icon.setAttribute('data-feather', 'x');
+            }
+            feather.replace();
+        });
+        
+        // Form submission handler
+        document.querySelector('form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                title: document.getElementById('title').value,
+                url: document.getElementById('url').value,
+                content: document.getElementById('content').value,
+                category: document.getElementById('category').value,
+                date: document.getElementById('date').value,
+                author: document.getElementById('author').value,
+                images: uploadedImages.map(img => img.name)
+            };
+            
+            console.log('Form data:', formData);
+            console.log('Uploaded images:', uploadedImages.length);
+            
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalContent = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i data-feather="loader" class="w-6 h-6 animate-spin"></i><span class="relative z-10">Đang xử lý...</span>';
+            feather.replace();
+            
+            // Simulate submission
+            setTimeout(() => {
+                submitBtn.innerHTML = '<i data-feather="check" class="w-6 h-6"></i><span class="relative z-10">Gửi thành công!</span>';
+                feather.replace();
+                
+                setTimeout(() => {
+                    alert('✅ Cảm ơn bạn đã gửi! Đội ngũ của chúng tôi sẽ xem xét trong thời gian sớm nhất.');
+                    e.target.reset();
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalContent;
+                    feather.replace();
+                }, 1000);
+            }, 2000);
+        });
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

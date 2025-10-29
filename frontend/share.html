@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chia Sẻ Tin Tức | TruthGuard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="./assets/css/full.css">
+</head>
+<body class="bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50 min-h-screen">
+    <!-- Decorative Blobs -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    <!-- Navigation Bar -->
+    <div id="nav-placeholder"></div>
+   
+    <main class="container mx-auto px-4 py-16 max-w-6xl relative z-10">
+        <!-- Header Section -->
+        <div class="text-center mb-16 fade-in-up">
+            <div class="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-600 rounded-3xl mb-8 shadow-2xl animate-float">
+                <i data-feather="share-2" class="w-12 h-12 text-white"></i>
+            </div>
+
+            
+            <h1 class="text-6xl font-extrabold mb-6 gradient-text leading-tight">
+                Chia Sẻ Tin Tức Với Cộng Đồng
+            </h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Kiểm tra độ tin cậy và chia sẻ tin tức quan trọng đến với mọi người. Cùng nhau chống lại thông tin sai lệch!
+            </p>
+        </div>
+
+        <!-- Info Banner -->
+        <div class="mb-10 glass-effect p-6 rounded-2xl border-l-8 border-orange-500 fade-in-up" style="animation-delay: 0.1s;">
+            <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+                    <i data-feather="info" class="w-6 h-6 text-orange-600"></i>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold text-gray-800 mb-2">💡 Điểm khác biệt</h4>
+                    <p class="text-gray-600 leading-relaxed">
+                        <strong>Trang Chia Sẻ:</strong> Tin tức của bạn sẽ được kiểm chứng TỰ ĐỘNG và đăng công khai lên cộng đồng nếu đáng tin cậy. 
+                        <strong class="text-orange-600">Trang Kiểm Tra:</strong> Chỉ kiểm chứng riêng tư cho bạn, không chia sẻ công khai.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Form Card -->
+        <div class="glass-effect rounded-3xl shadow-2xl overflow-hidden p-10 md:p-14 mb-10 fade-in-up" style="animation-delay: 0.2s;">
+            <form class="space-y-8">
+                <!-- Title Input -->
+                <div class="input-wrapper">
+                    <label for="title" class="block text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
+                        <i data-feather="type" class="w-5 h-5 text-orange-500 input-icon"></i>
+                        <span>Tiêu đề tin tức</span>
+                        <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" id="title" name="title" required 
+                        class="custom-input w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-orange-100 focus:border-orange-500 transition outline-none text-gray-800 text-lg"
+                        placeholder="Nhập tiêu đề hấp dẫn...">
+                </div>
+                
+                <!-- URL Input -->
+                <div class="input-wrapper">
+                    <label for="url" class="block text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
+                        <i data-feather="link" class="w-5 h-5 text-orange-500 input-icon"></i>
+                        <span>Đường dẫn nguồn</span>
+                        <span class="text-red-500">*</span>
+                    </label>
+                    <input type="url" id="url" name="url" required 
+                        class="custom-input w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-orange-100 focus:border-orange-500 transition outline-none text-gray-800 text-lg"
+                        placeholder="https://example.com/bai-viet">
+                    <p class="mt-2 text-sm text-gray-500 flex items-center gap-1">
+                        <i data-feather="info" class="w-4 h-4"></i>
+                        Nguồn tin sẽ được hiển thị công khai cho cộng đồng
+                    </p>
+                </div>
+                
+                <!-- Content Textarea -->
+                <div class="input-wrapper">
+                    <label for="content" class="block text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
+                        <i data-feather="file-text" class="w-5 h-5 text-orange-500 input-icon"></i>
+                        <span>Nội dung tin tức</span>
+                        <span class="text-red-500">*</span>
+                    </label>
+                    <textarea id="content" name="content" rows="10" required
+                        class="custom-input w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-orange-100 focus:border-orange-500 transition outline-none text-gray-800 text-lg resize-none"
+                        placeholder="Dán toàn bộ nội dung hoặc tóm tắt tin tức tại đây..."></textarea>
+                </div>
+                
+                <!-- Image Upload -->
+                <div class="input-wrapper">
+                    <label class="block text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
+                        <i data-feather="image" class="w-5 h-5 text-orange-500 input-icon"></i>
+                        <span>Hình ảnh minh họa</span>
+                        <span class="text-orange-600 text-xs font-normal">(Khuyến khích để thu hút)</span>
+                    </label>
+                    
+                    <div class="upload-area border-2 border-dashed border-gray-300 rounded-2xl p-8 text-center bg-gray-50"
+                         id="upload-area">
+                        <input type="file" id="image-input" accept="image/*" multiple class="hidden">
+                        
+                        <div id="upload-prompt">
+                            <div class="w-20 h-20 bg-gradient-to-br from-orange-100 to-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                <i data-feather="upload-cloud" class="w-10 h-10 text-orange-600"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-gray-800 mb-2">Kéo thả ảnh vào đây</h4>
+                            <p class="text-gray-600 mb-4">hoặc</p>
+                            <button type="button" onclick="document.getElementById('image-input').click()" 
+                                class="bg-gradient-to-r from-orange-500 to-pink-600 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transition inline-flex items-center gap-2">
+                                <i data-feather="folder" class="w-5 h-5"></i>
+                                Chọn từ thiết bị
+                            </button>
+                            <p class="text-sm text-gray-500 mt-4">PNG, JPG, GIF tối đa 5MB mỗi ảnh</p>
+                        </div>
+                        
+                        <div id="image-preview-container" class="hidden grid grid-cols-2 md:grid-cols-3 gap-4"></div>
+                    </div>
+                </div>
+                
+                <!-- Category and Tags -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="input-wrapper">
+                        <label for="category" class="block text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
+                            <i data-feather="tag" class="w-5 h-5 text-orange-500 input-icon"></i>
+                            <span>Danh mục</span>
+                            <span class="text-red-500">*</span>
+                        </label>
+                        <select id="category" name="category" required
+                            class="custom-input w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-orange-100 focus:border-orange-500 transition outline-none text-gray-800 text-lg cursor-pointer">
+                            <option value="" disabled selected>Chọn danh mục phù hợp</option>
+                            <option value="politics">🏛️ Chính trị</option>
+                            <option value="health">🏥 Sức khỏe</option>
+                            <option value="technology">💻 Công nghệ</option>
+                            <option value="science">🔬 Khoa học</option>
+                            <option value="business">💼 Kinh doanh</option>
+                            <option value="entertainment">🎬 Giải trí</option>
+                            <option value="sports">⚽ Thể thao</option>
+                            <option value="education">📚 Giáo dục</option>
+                            <option value="environment">🌍 Môi trường</option>
+                            <option value="other">📌 Khác</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-wrapper">
+                        <label for="tags" class="block text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
+                            <i data-feather="hash" class="w-5 h-5 text-orange-500 input-icon"></i>
+                            <span>Hashtags</span>
+                        </label>
+                        <input type="text" id="tags" name="tags"
+                            class="custom-input w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-orange-100 focus:border-orange-500 transition outline-none text-gray-800 text-lg"
+                            placeholder="#tinmoi #thoisuhomnay">
+                        <p class="mt-2 text-sm text-gray-500">Cách nhau bằng dấu cách</p>
+                    </div>
+                </div>
+                
+                <!-- Author Info -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="input-wrapper">
+                        <label for="author" class="block text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
+                            <i data-feather="user" class="w-5 h-5 text-orange-500 input-icon"></i>
+                            <span>Tác giả gốc (nếu biết)</span>
+                        </label>
+                        <input type="text" id="author" name="author"
+                            class="custom-input w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-orange-100 focus:border-orange-500 transition outline-none text-gray-800 text-lg"
+                            placeholder="Tên tác giả">
+                    </div>
+                    
+                    <div class="input-wrapper">
+                        <label for="date" class="block text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
+                            <i data-feather="calendar" class="w-5 h-5 text-orange-500 input-icon"></i>
+                            <span>Ngày xuất bản gốc</span>
+                        </label>
+                        <input type="date" id="date" name="date"
+                            class="custom-input w-full px-6 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-orange-100 focus:border-orange-500 transition outline-none text-gray-800 text-lg cursor-pointer">
+                    </div>
+                </div>
+                
+                <!-- Share Settings -->
+                <div class="bg-gradient-to-r from-orange-50 to-pink-50 p-6 rounded-2xl border-2 border-orange-200">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <i data-feather="settings" class="w-5 h-5 text-orange-600"></i>
+                        Cài đặt chia sẻ
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                                <p class="font-semibold text-gray-800">Kiểm chứng trước khi đăng</p>
+                                <p class="text-sm text-gray-600">AI sẽ tự động kiểm tra độ tin cậy</p>
+                            </div>
+                            <div class="toggle-switch active" id="verify-toggle">
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                                <p class="font-semibold text-gray-800">Cho phép bình luận</p>
+                                <p class="text-sm text-gray-600">Cộng đồng có thể thảo luận về tin này</p>
+                            </div>
+                            <div class="toggle-switch active" id="comment-toggle">
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                                <p class="font-semibold text-gray-800">Hiển thị tên của tôi</p>
+                                <p class="text-sm text-gray-600">Cộng đồng sẽ biết bạn là người chia sẻ</p>
+                            </div>
+                            <div class="toggle-switch active" id="name-toggle">
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Submit Buttons -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+                    <button type="button" onclick="checkOnly()" 
+                        class="w-full bg-gradient-to-r from-gray-500 via-gray-600 to-gray-700 hover:from-gray-600 hover:via-gray-700 hover:to-gray-800 text-white font-bold py-5 px-8 rounded-2xl transition duration-300 flex items-center justify-center gap-3 text-lg shadow-xl">
+                        <i data-feather="search" class="w-6 h-6"></i>
+                        <span>Chỉ kiểm tra</span>
+                    </button>
+                    
+                    <button type="submit" 
+                        class="submit-btn w-full bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 hover:from-orange-600 hover:via-pink-600 hover:to-purple-700 text-white font-bold py-5 px-8 rounded-2xl transition duration-300 flex items-center justify-center gap-3 text-lg shadow-xl">
+                        <i data-feather="share-2" class="w-6 h-6"></i>
+                        <span class="relative z-10">Kiểm tra & Chia sẻ</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Process Steps -->
+        <div class="fade-in-up" style="animation-delay: 0.4s;">
+            <div class="text-center mb-10">
+                <h3 class="text-3xl font-bold text-gray-800 mb-3">Quy trình chia sẻ</h3>
+                <p class="text-gray-600 text-lg">Tin tức của bạn sẽ được xử lý như thế nào?</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="step-card glass-effect p-8 rounded-3xl shadow-lg">
+                    <div class="flex flex-col items-center mb-5">
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 text-white flex items-center justify-center rounded-2xl shadow-lg mb-4">
+                            <i data-feather="check-square" class="w-8 h-8"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800 text-center">Xác minh</h4>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed text-center">
+                        Hệ thống chấm điểm độ tin cậy và đưa ra nhận định chi tiết
+                    </p>
+                </div>
+                
+                <div class="step-card glass-effect p-8 rounded-3xl shadow-lg">
+                    <div class="flex flex-col items-center mb-5">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 text-white flex items-center justify-center rounded-2xl shadow-lg mb-4">
+                            <i data-feather="users" class="w-8 h-8"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800 text-center">Đăng công khai</h4>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed text-center">
+                        Nếu tin đáng tin cậy, sẽ được đăng lên cộng đồng ngay lập tức
+                    </p>
+                </div>
+                
+                <div class="step-card glass-effect p-8 rounded-3xl shadow-lg">
+                    <div class="flex flex-col items-center mb-5">
+                        <div class="w-16 h-16 bg-gradient-to-br from-pink-500 to-pink-600 text-white flex items-center justify-center rounded-2xl shadow-lg mb-4">
+                            <i data-feather="trending-up" class="w-8 h-8"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800 text-center">Lan tóa</h4>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed text-center">
+                        Tin tức được chia sẻ rộng rãi, giúp nhiều người biết sự thật
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Benefits Section -->
+        <div class="mt-16 fade-in-up" style="animation-delay: 0.6s;">
+            <div class="glass-effect p-8 rounded-3xl shadow-lg">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Tại sao nên chia sẻ tin tức?</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-green-100 to-green-200 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i data-feather="award" class="w-8 h-8 text-green-600"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-2">Nhận điểm uy tín</h4>
+                        <p class="text-gray-600 text-sm">Mỗi tin đúng được chia sẻ giúp bạn tăng điểm và hạng trong cộng đồng</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i data-feather="shield" class="w-8 h-8 text-blue-600"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-2">Chống thông tin sai</h4>
+                        <p class="text-gray-600 text-sm">Góp phần tạo môi trường thông tin lành mạnh cho mọi người</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-200 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i data-feather="zap" class="w-8 h-8 text-purple-600"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-2">Lan tỏa nhanh chóng</h4>
+                        <p class="text-gray-600 text-sm">Tin tức tốt được chia sẻ rộng rãi, giúp nhiều người biết sự thật</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Warning Banner -->
+        <div class="mt-12 glass-effect p-8 rounded-3xl shadow-lg border-l-8 border-red-500 fade-in-up" style="animation-delay: 0.8s;">
+            <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+                    <i data-feather="alert-triangle" class="w-6 h-6 text-red-600"></i>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold text-gray-800 mb-2">⚠️ Lưu ý quan trọng</h4>
+                    <ul class="text-gray-600 leading-relaxed space-y-2">
+                        <li class="flex items-start gap-2">
+                            <span class="text-red-500 font-bold">•</span>
+                            <span>Chỉ chia sẻ tin tức từ <strong>nguồn đáng tin cậy</strong>. Tin giả mạo sẽ bị gỡ và tài khoản có thể bị khóa.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-red-500 font-bold">•</span>
+                            <span>Không chia sẻ nội dung <strong>xúc phạm, kích động, hoặc vi phạm pháp luật</strong>.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-red-500 font-bold">•</span>
+                            <span>Luôn ghi rõ <strong>nguồn gốc</strong> và không thay đổi nội dung gốc để tránh hiểu nhầm.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-orange-500 font-bold">•</span>
+                            <span>Bạn chịu trách nhiệm về <strong>nội dung mình chia sẻ</strong>. Hãy kiểm tra kỹ trước khi đăng!</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 mt-20 glass-effect border-t border-gray-200">
+        <div class="container mx-auto px-4 py-8">
+            <div class="text-center">
+                <p class="text-gray-600">
+                    © 2025 TruthGuard. Cùng nhau xây dựng cộng đồng thông tin minh bạch.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        feather.replace();
+        
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                const icon = mobileMenuBtn.querySelector('i');
+                if (mobileMenu.classList.contains('hidden')) {
+                    icon.setAttribute('data-feather', 'menu');
+                } else {
+                    icon.setAttribute('data-feather', 'x');
+                }
+                feather.replace();
+            });
+        }
+        
+        // Toggle switches
+        document.querySelectorAll('.toggle-switch').forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+        
+        // Image upload functionality
+        const uploadArea = document.getElementById('upload-area');
+        const imageInput = document.getElementById('image-input');
+        const uploadPrompt = document.getElementById('upload-prompt');
+        const previewContainer = document.getElementById('image-preview-container');
+        let uploadedImages = [];
+        
+        uploadArea.addEventListener('click', (e) => {
+            if (e.target.closest('button') || e.target.closest('.remove-image')) return;
+            imageInput.click();
+        });
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/'));
+            handleFiles(files);
+        });
+        
+        imageInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            handleFiles(files);
+        });
+        
+        function handleFiles(files) {
+            files.forEach(file => {
+                if (file.size > 5 * 1024 * 1024) {
+                    alert(`Ảnh ${file.name} vượt quá 5MB`);
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    uploadedImages.push({
+                        name: file.name,
+                        url: e.target.result
+                    });
+                    displayImages();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+        
+        function displayImages() {
+            if (uploadedImages.length > 0) {
+                uploadPrompt.classList.add('hidden');
+                previewContainer.classList.remove('hidden');
+                
+                previewContainer.innerHTML = uploadedImages.map((img, index) => `
+                    <div class="image-preview relative group rounded-xl overflow-hidden shadow-lg">
+                        <img src="${img.url}" alt="${img.name}" class="w-full h-40 object-cover">
+                        <button type="button" onclick="removeImage(${index})" 
+                            class="remove-image absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white w-8 h-8 rounded-full flex items-center justify-center transition shadow-lg">
+                            <i data-feather="x" class="w-5 h-5"></i>
+                        </button>
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
+                            <p class="text-white text-xs font-semibold truncate">${img.name}</p>
+                        </div>
+                    </div>
+                `).join('');
+                
+                feather.replace();
+            } else {
+                uploadPrompt.classList.remove('hidden');
+                previewContainer.classList.add('hidden');
+            }
+        }
+        
+        window.removeImage = function(index) {
+            uploadedImages.splice(index, 1);
+            displayImages();
+        };
+        
+        // Check only button
+        window.checkOnly = function() {
+            const title = document.getElementById('title').value;
+            const url = document.getElementById('url').value;
+            const content = document.getElementById('content').value;
+            
+            if (!title || !url || !content) {
+                alert('⚠️ Vui lòng điền đầy đủ thông tin bắt buộc!');
+                return;
+            }
+            
+            const btn = event.target;
+            const originalContent = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i data-feather="loader" class="w-6 h-6 animate-spin"></i><span>Đang kiểm tra...</span>';
+            feather.replace();
+            
+            setTimeout(() => {
+                alert('✅ Kiểm tra hoàn tất!\n\n📊 Độ tin cậy: 92%\n✓ Nguồn đáng tin cậy\n✓ Nội dung phù hợp\n\nTin tức này có thể chia sẻ an toàn!');
+                btn.disabled = false;
+                btn.innerHTML = originalContent;
+                feather.replace();
+            }, 2000);
+        };
+        
+        // Form submission
+        document.querySelector('form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                title: document.getElementById('title').value,
+                url: document.getElementById('url').value,
+                content: document.getElementById('content').value,
+                category: document.getElementById('category').value,
+                tags: document.getElementById('tags').value,
+                author: document.getElementById('author').value,
+                date: document.getElementById('date').value,
+                images: uploadedImages.map(img => img.name),
+                verify: document.getElementById('verify-toggle').classList.contains('active'),
+                allowComments: document.getElementById('comment-toggle').classList.contains('active'),
+                showName: document.getElementById('name-toggle').classList.contains('active')
+            };
+            
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalContent = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i data-feather="loader" class="w-6 h-6 animate-spin"></i><span class="relative z-10">Đang xử lý...</span>';
+            feather.replace();
+            
+            // Simulate AI verification
+            setTimeout(() => {
+                submitBtn.innerHTML = '<i data-feather="check-circle" class="w-6 h-6"></i><span class="relative z-10">Đang kiểm chứng...</span>';
+                feather.replace();
+                
+                setTimeout(() => {
+                    const trustScore = Math.floor(Math.random() * 30) + 70; // 70-100%
+                    
+                    if (trustScore >= 75) {
+                        alert(`🎉 Thành công!\n\n✅ Độ tin cậy: ${trustScore}%\n📢 Tin tức đã được chia sẻ lên cộng đồng!\n👥 Hiện có ${Math.floor(Math.random() * 500) + 100} người đang xem\n\nCảm ơn bạn đã đóng góp thông tin đáng tin cậy!`);
+                        window.location.href = 'index.html#news';
+                    } else {
+                        alert(`⚠️ Cảnh báo!\n\n📊 Độ tin cậy: ${trustScore}%\n❌ Tin tức chưa đủ điều kiện chia sẻ công khai\n\nLý do: Độ tin cậy thấp, cần xác minh thêm nguồn tin.\nBạn có thể gửi lại sau khi bổ sung thêm thông tin!`);
+                    }
+                    
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalContent;
+                    feather.replace();
+                }, 2000);
+            }, 2000);
+        });
+    </script>
+    <!-- Script để load navigation -->
+    <script>
+        fetch('navigation.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('nav-placeholder').innerHTML = data;
+                // Khởi tạo lại feather icons sau khi load nav
+                if (typeof feather !== 'undefined') {
+                    feather.replace();
+                }
+            });
+    </script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.orm import Session
+from app.core.config import SessionLocal
+from app.schemas.User import UserBase, UserResponse, UserUpdate, LoginBase
+from typing import List
+from app.models.User import User
+from passlib.context import CryptContext
+
+router = APIRouter(prefix="/users", tags=["users"])
+
+# Cấu hình mã hóa password
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+# ======== ĐANG BỊ LỖI Ở ĐÂY ========
+# def hash_password(password: str) -> str:
+#     """Mã hóa password"""
+#     password_bytes = password.encode('utf-8')
+#     if len(password_bytes) > 72:
+#         truncated = password_bytes[:72]
+#         password = truncated.decode('utf-8', errors='ignore')
+#     return pwd_context.hash(password)
+
+
+# def verify_password(plain_password: str, hashed_password: str) -> bool:
+#     """Kiểm tra password"""
+#     # Ensure verification uses the same 72-byte truncation as hashing
+#     password_bytes = plain_password.encode('utf-8')
+#     if len(password_bytes) > 72:
+#         truncated = password_bytes[:72]
+#         plain_password = truncated.decode('utf-8', errors='ignore')
+#     return pwd_context.verify(plain_password, hashed_password)
+
+
+@router.post('/register', response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+def register(user: UserBase, db: Session = Depends(get_db)):
+    
+    new_user = User(
+        username=user.username,
+        email=user.email,
+        password_hash=user.password_hash,
+        full_name=user.full_name,
+        phone_number=user.phone_number
+    )
+    
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    
+    return new_user
+
+
+@router.post('/login')
+def login(credentials: LoginBase, db: Session = Depends(get_db)):
+    """Đăng nhập"""
+    user = db.query(User).filter(User.username == credentials.username).first()
+    
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Username hoặc password không đúng"
+        )
+    
+    if user.password_hash != credentials.password:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Username hoặc password không đúng"
+        )
+    
+    return {
+        "message": "Đăng nhập thành công",
+        "user_id": user.id,
+        "username": user.username
+    }
+
+
+@router.get('/', response_model=List[UserResponse])
+def get_all_users(db: Session = Depends(get_db), skip: int = 0, limit: int = 100):
+    """Lấy danh sách tất cả users"""
+    users = db.query(User).offset(skip).limit(limit).all()
+    return users
+
+
+@router.get('/{user_id}', response_model=UserResponse)
+def get_user(user_id: int, db: Session = Depends(get_db)):
+    """Lấy thông tin user theo ID"""
+    user = db.query(User).filter(User.id == user_id).first()
+    
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User không tồn tại"
+        )
+    
+    return user
+
+
+@router.put('/{user_id}', response_model=UserResponse)
+def update_user(user_id: int, user_data: UserUpdate, db: Session = Depends(get_db)):
+    """Cập nhật thông tin user"""
+    user = db.query(User).filter(User.id == user_id).first()
+    
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User không tồn tại"
+        )
+    
+    # Cập nhật các trường nếu có
+    if user_data.email is not None:
+        # Kiểm tra email mới có bị trùng không
+        existing_email = db.query(User).filter(
+            User.email == user_data.email,
+            User.id != user_id
+        ).first()
+        if existing_email:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Email đã được sử dụng"
+            )
+        user.email = user_data.email
+    
+    if user_data.full_name is not None:
+        user.full_name = user_data.full_name
+    
+    if user_data.phone_number is not None:
+        user.phone_number = user_data.phone_number
+    
+    db.commit()
+    db.refresh(user)
+    
+    return user
