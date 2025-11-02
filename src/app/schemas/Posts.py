@@ -3,12 +3,6 @@ from datetime import datetime
 from typing import Optional, List, Literal, Dict
 
 
-# NOTE:
-# This file provides Pydantic (v2) schemas for Post-related payloads.
-# Business requirements: user submits a news post with title, content,
-# optional images, category, and publish date.
-
-
 class PostImageSchema(BaseModel):
     
     id: Optional[int] = None

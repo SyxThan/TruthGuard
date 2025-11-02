@@ -5,7 +5,7 @@ from typing import Optional, List
 class UserBase(BaseModel):
     username : str
     email : Optional[EmailStr] = None
-    password : str
+    password_hash : str
     full_name : Optional[str] = None
     phone_number : Optional[str] = None
  

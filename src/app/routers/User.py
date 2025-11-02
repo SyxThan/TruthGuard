@@ -1,10 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from app.core.config import SessionLocal
 from app.schemas.User import UserBase, UserResponse, UserUpdate, LoginBase
 from typing import List
 from app.models.User import User
 from passlib.context import CryptContext
+from app.dependency.auth import create_access_token
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -18,24 +20,20 @@ def get_db():
         yield db
     finally:
         db.close()
-# ======== ĐANG BỊ LỖI Ở ĐÂY ========
-# def hash_password(password: str) -> str:
-#     """Mã hóa password"""
-#     password_bytes = password.encode('utf-8')
-#     if len(password_bytes) > 72:
-#         truncated = password_bytes[:72]
-#         password = truncated.decode('utf-8', errors='ignore')
-#     return pwd_context.hash(password)
+def hash_password(password: str) -> str:
+    """Hash password with bcrypt (truncate >72 bytes per bcrypt spec)."""
+    password_bytes = password.encode('utf-8')
+    if len(password_bytes) > 72:
+        password = password_bytes[:72].decode('utf-8', errors='ignore')
+    return pwd_context.hash(password)
 
 
-# def verify_password(plain_password: str, hashed_password: str) -> bool:
-#     """Kiểm tra password"""
-#     # Ensure verification uses the same 72-byte truncation as hashing
-#     password_bytes = plain_password.encode('utf-8')
-#     if len(password_bytes) > 72:
-#         truncated = password_bytes[:72]
-#         plain_password = truncated.decode('utf-8', errors='ignore')
-#     return pwd_context.verify(plain_password, hashed_password)
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """Verify password using same 72-byte truncation as hashing."""
+    password_bytes = plain_password.encode('utf-8')
+    if len(password_bytes) > 72:
+        plain_password = password_bytes[:72].decode('utf-8', errors='ignore')
+    return pwd_context.verify(plain_password, hashed_password)
 
 
 @router.post('/register', response_model=UserResponse, status_code=status.HTTP_201_CREATED)
@@ -44,7 +42,7 @@ def register(user: UserBase, db: Session = Depends(get_db)):
     new_user = User(
         username=user.username,
         email=user.email,
-        password_hash=user.password_hash,
+        password_hash=hash_password(user.password_hash),
         full_name=user.full_name,
         phone_number=user.phone_number
     )
@@ -67,16 +65,19 @@ def login(credentials: LoginBase, db: Session = Depends(get_db)):
             detail="Username hoặc password không đúng"
         )
     
-    if user.password_hash != credentials.password:
+    if not verify_password(credentials.password, user.password_hash):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Username hoặc password không đúng"
         )
     
+    token = create_access_token({"sub": str(user.id), "username": user.username})
     return {
         "message": "Đăng nhập thành công",
         "user_id": user.id,
-        "username": user.username
+        "username": user.username,
+        "access_token": token,
+        "token_type": "bearer"
     }
 
 
@@ -136,3 +137,18 @@ def update_user(user_id: int, user_data: UserUpdate, db: Session = Depends(get_d
     db.refresh(user)
     
     return user
+
+
+@router.post('/token')
+def login_for_access_token(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(get_db)
+):
+    user = db.query(User).filter(User.username == form_data.username).first()
+    if not user or not verify_password(form_data.password, user.password_hash):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password"
+        )
+    access_token = create_access_token({"sub": str(user.id), "username": user.username})
+    return {"access_token": access_token, "token_type": "bearer"}

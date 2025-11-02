@@ -304,20 +304,6 @@
             displayImages();
         };
         
-        // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            const icon = mobileMenuBtn.querySelector('i');
-            if (mobileMenu.classList.contains('hidden')) {
-                icon.setAttribute('data-feather', 'menu');
-            } else {
-                icon.setAttribute('data-feather', 'x');
-            }
-            feather.replace();
-        });
         
         // Form submission handler
         document.querySelector('form').addEventListener('submit', async (e) => {

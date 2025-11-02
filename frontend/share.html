@@ -361,22 +361,6 @@
     <script>
         feather.replace();
         
-        // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        if (mobileMenuBtn) {
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-                const icon = mobileMenuBtn.querySelector('i');
-                if (mobileMenu.classList.contains('hidden')) {
-                    icon.setAttribute('data-feather', 'menu');
-                } else {
-                    icon.setAttribute('data-feather', 'x');
-                }
-                feather.replace();
-            });
-        }
         
         // Toggle switches
         document.querySelectorAll('.toggle-switch').forEach(toggle => {
