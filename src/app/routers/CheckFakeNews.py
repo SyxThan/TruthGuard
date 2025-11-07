@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 from app.core.config import SessionLocal
-from app.schemas.Posts import PostCreate, PostResponse, FakeNewsCheckResponse
+from app.schemas.Posts import PostCreateCheck, PostResponse, FakeNewsCheckResponse
 from app.models.Posts import Post
 from app.models.Categories import Category
 from app.models.Post_images import PostImage
@@ -39,7 +39,7 @@ def get_db():
 
 @router.post('/analyze', response_model=FakeNewsCheckResponse)
 def analyze_post(
-    post_data: PostCreate,
+    post_data: PostCreateCheck,
     db: Session = Depends(get_db)
 ):
     """Check only - Kiểm tra tin giả mà không lưu vào database (submit.html)"""

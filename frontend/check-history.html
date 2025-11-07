@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch sử kiểm tra - TruthGuard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <link rel="stylesheet" href="./assets/css/index.css" />
+</head>
+<body class="bg-gradient-to-br from-emerald-50 via-cyan-50 to-blue-50 min-h-screen">
+    <!-- Decorative Blobs -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <div id="nav-placeholder"></div>
+    
+    <main class="container mx-auto px-4 py-12 relative z-10">
+        <!-- Page Header -->
+        <section class="mb-12 fade-in-up">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-black text-gray-800 mb-3">
+                        <i data-feather="history" class="w-10 h-10 inline mr-3 text-emerald-600"></i>
+                        Lịch sử kiểm tra
+                    </h1>
+                    <p class="text-xl text-gray-600">Xem lại tất cả các tin tức bạn đã kiểm tra</p>
+                </div>
+                <a href="submit.html" class="hidden md:inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-6 py-3 rounded-2xl font-bold hover:shadow-xl transition">
+                    <i data-feather="plus-circle" class="w-5 h-5"></i>
+                    Kiểm tra mới
+                </a>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm mb-1">Tổng kiểm tra</p>
+                            <p class="text-3xl font-black text-gray-800" id="total-checks">0</p>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                            <i data-feather="file-text" class="w-6 h-6 text-blue-600"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm mb-1">Tin thật</p>
+                            <p class="text-3xl font-black text-emerald-600" id="real-count">0</p>
+                        </div>
+                        <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
+                            <i data-feather="check-circle" class="w-6 h-6 text-emerald-600"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm mb-1">Tin giả</p>
+                            <p class="text-3xl font-black text-red-600" id="fake-count">0</p>
+                        </div>
+                        <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+                            <i data-feather="x-circle" class="w-6 h-6 text-red-600"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm mb-1">Chưa rõ</p>
+                            <p class="text-3xl font-black text-orange-600" id="uncertain-count">0</p>
+                        </div>
+                        <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+                            <i data-feather="help-circle" class="w-6 h-6 text-orange-600"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filters -->
+        <section class="mb-8 fade-in-up" style="animation-delay: 0.1s;">
+            <div class="glass-card p-6 rounded-2xl">
+                <div class="flex flex-wrap gap-4 items-center">
+                    <div class="flex-1 min-w-[200px]">
+                        <input type="text" 
+                            id="search-input" 
+                            placeholder="Tìm kiếm theo tiêu đề..."
+                            class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
+                    </div>
+                    <select id="filter-label" class="px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white">
+                        <option value="">Tất cả kết quả</option>
+                        <option value="Real">Tin thật</option>
+                        <option value="Fake">Tin giả</option>
+                        <option value="Uncertain">Chưa rõ</option>
+                    </select>
+                    <select id="sort-by" class="px-4 py-3 rounded-xl border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white">
+                        <option value="newest">Mới nhất</option>
+                        <option value="oldest">Cũ nhất</option>
+                    </select>
+                    <button id="apply-filters" class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-6 py-3 rounded-xl font-bold hover:shadow-xl transition flex items-center gap-2">
+                        <i data-feather="filter" class="w-5 h-5"></i>
+                        Lọc
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loading State -->
+        <div id="loading-state" class="text-center py-12">
+            <div class="inline-block w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+            <p class="text-gray-600">Đang tải lịch sử kiểm tra...</p>
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden text-center py-12">
+            <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i data-feather="inbox" class="w-12 h-12 text-gray-400"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-3">Chưa có lịch sử kiểm tra</h3>
+            <p class="text-gray-600 mb-6">Bạn chưa kiểm tra tin tức nào. Hãy bắt đầu kiểm tra ngay!</p>
+            <a href="submit.html" class="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-6 py-3 rounded-2xl font-bold hover:shadow-xl transition">
+                <i data-feather="plus-circle" class="w-5 h-5"></i>
+                Kiểm tra tin tức
+            </a>
+        </div>
+
+        <!-- History List -->
+        <section id="history-list" class="hidden fade-in-up" style="animation-delay: 0.2s;">
+            <div class="grid grid-cols-1 gap-6" id="history-container">
+                <!-- History items will be inserted here -->
+            </div>
+
+            <!-- Pagination -->
+            <div id="pagination" class="mt-8 flex justify-center gap-2">
+                <!-- Pagination buttons will be inserted here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 mt-20 glass-effect border-t border-gray-200">
+        <div class="container mx-auto px-4 py-8">
+            <div class="text-center">
+                <p class="text-gray-600">© 2025 TruthGuard. Cùng nhau xây dựng cộng đồng thông tin minh bạch.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./assets/js/api.js"></script>
+    <script src="./assets/js/utils.js"></script>
+    <script src="./assets/js/nav.js"></script>
+    <script>
+        class CheckHistoryPage {
+            constructor() {
+                this.currentPage = 1;
+                this.itemsPerPage = 10;
+                this.allHistory = [];
+                this.filteredHistory = [];
+                this.init();
+            }
+
+            async init() {
+                // Check authentication
+                if (!AuthManager.isLoggedIn()) {
+                    Toast.show('Vui lòng đăng nhập để xem lịch sử', 'warning');
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 1500);
+                    return;
+                }
+
+                this.setupEventListeners();
+                await this.loadHistory();
+            }
+
+            setupEventListeners() {
+                const applyFiltersBtn = document.getElementById('apply-filters');
+                const searchInput = document.getElementById('search-input');
+
+                applyFiltersBtn?.addEventListener('click', () => this.applyFilters());
+                searchInput?.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.applyFilters();
+                    }
+                });
+            }
+
+            async loadHistory() {
+                try {
+                    const user = AuthManager.currentUser;
+                    if (!user) throw new Error('User not found');
+
+                    // Get check history from API
+                    const response = await api.getCheckHistory(user.id, 0, 1000);
+                    
+                    this.allHistory = response || [];
+                    this.filteredHistory = [...this.allHistory];
+                    
+                    this.updateStats();
+                    this.displayHistory();
+                    
+                    document.getElementById('loading-state').classList.add('hidden');
+                    
+                    if (this.allHistory.length === 0) {
+                        document.getElementById('empty-state').classList.remove('hidden');
+                    } else {
+                        document.getElementById('history-list').classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error('Error loading history:', error);
+                    document.getElementById('loading-state').classList.add('hidden');
+                    document.getElementById('empty-state').classList.remove('hidden');
+                    Toast.show('Không thể tải lịch sử kiểm tra', 'error');
+                }
+            }
+
+            updateStats() {
+                const total = this.allHistory.length;
+                const real = this.allHistory.filter(item => item.predicted_label === 'Real').length;
+                const fake = this.allHistory.filter(item => item.predicted_label === 'Fake').length;
+                const uncertain = this.allHistory.filter(item => item.predicted_label === 'Uncertain').length;
+
+                document.getElementById('total-checks').textContent = total;
+                document.getElementById('real-count').textContent = real;
+                document.getElementById('fake-count').textContent = fake;
+                document.getElementById('uncertain-count').textContent = uncertain;
+            }
+
+            applyFilters() {
+                const searchTerm = document.getElementById('search-input').value.toLowerCase();
+                const filterLabel = document.getElementById('filter-label').value;
+                const sortBy = document.getElementById('sort-by').value;
+
+                this.filteredHistory = this.allHistory.filter(item => {
+                    const matchesSearch = !searchTerm || item.title.toLowerCase().includes(searchTerm);
+                    const matchesLabel = !filterLabel || item.predicted_label === filterLabel;
+                    return matchesSearch && matchesLabel;
+                });
+
+                // Sort
+                if (sortBy === 'newest') {
+                    this.filteredHistory.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                } else {
+                    this.filteredHistory.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+                }
+
+                this.currentPage = 1;
+                this.displayHistory();
+            }
+
+            displayHistory() {
+                const container = document.getElementById('history-container');
+                if (!container) return;
+
+                const start = (this.currentPage - 1) * this.itemsPerPage;
+                const end = start + this.itemsPerPage;
+                const pageItems = this.filteredHistory.slice(start, end);
+
+                container.innerHTML = pageItems.map(item => this.createHistoryCard(item)).join('');
+                
+                this.renderPagination();
+                feather.replace();
+            }
+
+            createHistoryCard(item) {
+                const date = new Date(item.created_at);
+                const formattedDate = date.toLocaleDateString('vi-VN', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                const badge = this.getBadge(item.predicted_label);
+                const confidence = item.confidence ? (item.confidence * 100).toFixed(1) : 'N/A';
+
+                return `
+                    <article class="glass-card rounded-2xl overflow-hidden hover:shadow-xl transition">
+                        <div class="p-6">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex-1">
+                                    <h3 class="text-xl font-bold text-gray-800 mb-2 leading-tight">${this.escapeHtml(item.title)}</h3>
+                                    <p class="text-gray-600 mb-3 line-clamp-2">${this.escapeHtml(item.content || 'Không có nội dung').substring(0, 150)}...</p>
+                                </div>
+                                ${badge}
+                            </div>
+                            
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i data-feather="clock" class="w-4 h-4 text-gray-400"></i>
+                                    <span class="text-gray-600">${formattedDate}</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i data-feather="target" class="w-4 h-4 text-gray-400"></i>
+                                    <span class="text-gray-600">Độ tin cậy: ${confidence}%</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i data-feather="tag" class="w-4 h-4 text-gray-400"></i>
+                                    <span class="text-gray-600">${item.category_name || 'Chưa phân loại'}</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i data-feather="link" class="w-4 h-4 text-gray-400"></i>
+                                    <span class="text-gray-600 truncate">${item.source || 'Không rõ nguồn'}</span>
+                                </div>
+                            </div>
+
+                            ${item.reason ? `
+                                <div class="bg-gray-50 rounded-xl p-4 mb-4">
+                                    <p class="text-sm text-gray-700"><strong>Lý do:</strong> ${this.escapeHtml(item.reason)}</p>
+                                </div>
+                            ` : ''}
+
+                            <div class="flex items-center justify-between">
+                                <button onclick="checkHistoryPage.viewDetails('${item.id}')" class="text-emerald-600 font-semibold flex items-center gap-2 hover:gap-3 transition-all">
+                                    Xem chi tiết
+                                    <i data-feather="arrow-right" class="w-4 h-4"></i>
+                                </button>
+                                <button onclick="checkHistoryPage.deleteItem('${item.id}')" class="text-red-600 font-semibold flex items-center gap-2 hover:text-red-700 transition">
+                                    <i data-feather="trash-2" class="w-4 h-4"></i>
+                                    Xóa
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }
+
+            getBadge(label) {
+                if (label === 'Real') {
+                    return '<span class="badge-real flex items-center gap-2 text-white px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap"><i data-feather="check-circle" class="w-4 h-4"></i>THẬT</span>';
+                } else if (label === 'Fake') {
+                    return '<span class="badge-fake flex items-center gap-2 text-white px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap"><i data-feather="x-circle" class="w-4 h-4"></i>GIẢ</span>';
+                } else {
+                    return '<span class="badge-uncertain flex items-center gap-2 text-white px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap"><i data-feather="help-circle" class="w-4 h-4"></i>CHƯA RÕ</span>';
+                }
+            }
+
+            renderPagination() {
+                const pagination = document.getElementById('pagination');
+                if (!pagination) return;
+
+                const totalPages = Math.ceil(this.filteredHistory.length / this.itemsPerPage);
+                
+                if (totalPages <= 1) {
+                    pagination.innerHTML = '';
+                    return;
+                }
+
+                let html = '';
+                
+                // Previous button
+                if (this.currentPage > 1) {
+                    html += `<button onclick="checkHistoryPage.goToPage(${this.currentPage - 1})" class="px-4 py-2 rounded-xl bg-white border-2 border-gray-200 hover:border-emerald-500 transition">Trước</button>`;
+                }
+
+                // Page numbers
+                for (let i = 1; i <= totalPages; i++) {
+                    if (i === 1 || i === totalPages || (i >= this.currentPage - 1 && i <= this.currentPage + 1)) {
+                        const active = i === this.currentPage ? 'bg-emerald-500 text-white' : 'bg-white border-2 border-gray-200';
+                        html += `<button onclick="checkHistoryPage.goToPage(${i})" class="px-4 py-2 rounded-xl ${active} hover:border-emerald-500 transition">${i}</button>`;
+                    } else if (i === this.currentPage - 2 || i === this.currentPage + 2) {
+                        html += `<span class="px-2">...</span>`;
+                    }
+                }
+
+                // Next button
+                if (this.currentPage < totalPages) {
+                    html += `<button onclick="checkHistoryPage.goToPage(${this.currentPage + 1})" class="px-4 py-2 rounded-xl bg-white border-2 border-gray-200 hover:border-emerald-500 transition">Sau</button>`;
+                }
+
+                pagination.innerHTML = html;
+            }
+
+            goToPage(page) {
+                this.currentPage = page;
+                this.displayHistory();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            viewDetails(postId) {
+                window.location.href = `article.html?id=${postId}`;
+            }
+
+            async deleteItem(postId) {
+                if (!confirm('Bạn có chắc chắn muốn xóa mục này khỏi lịch sử?')) return;
+
+                try {
+                    await api.deletePost(postId);
+                    Toast.show('Đã xóa thành công', 'success');
+                    
+                    // Reload history
+                    this.allHistory = this.allHistory.filter(item => item.id !== postId);
+                    this.applyFilters();
+                    this.updateStats();
+
+                    if (this.allHistory.length === 0) {
+                        document.getElementById('history-list').classList.add('hidden');
+                        document.getElementById('empty-state').classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error('Error deleting item:', error);
+                    Toast.show('Không thể xóa mục này', 'error');
+                }
+            }
+
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+        }
+
+        // Initialize page
+        let checkHistoryPage;
+        document.addEventListener('DOMContentLoaded', () => {
+            checkHistoryPage = new CheckHistoryPage();
+            feather.replace();
+        });
+    </script>
+</body>
+</html>

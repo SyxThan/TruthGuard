@@ -29,7 +29,7 @@ def hash_password(password: str) -> str:
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """Verify password using same 72-byte truncation as hashing."""
+    
     password_bytes = plain_password.encode('utf-8')
     if len(password_bytes) > 72:
         plain_password = password_bytes[:72].decode('utf-8', errors='ignore')

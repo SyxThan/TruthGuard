@@ -44,18 +44,7 @@ def get_draft_posts(
     
     return posts
 
-@router.get('/fake-news', response_model=List[PostSimple])
-def get_fake_news_posts(
-    db: Session = Depends(get_db),
-    skip: int = Query(0, ge=0),
-    limit: int = Query(100, ge=1, le=100)
-):
-    """Get fake news posts"""
-    posts = db.query(Post).filter(
-        Post.credibility_label == "Giả"
-    ).order_by(Post.created_at.desc()).offset(skip).limit(limit).all()
-    
-    return posts
+
 
 @router.get('/search', response_model=List[PostSimple])
 def search_posts(
@@ -64,15 +53,16 @@ def search_posts(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=100)
 ):
-    """Search posts by title or content"""
+    """Search posts by title or content (published only)"""
     search_query = f"%{q}%"
     
     posts = db.query(Post).filter(
+        Post.status == "published",
         or_(
             Post.title.ilike(search_query),
             Post.content.ilike(search_query)
         )
-    ).order_by(Post.updated_at.desc()).offset(skip).limit(limit).all()
+    ).order_by(Post.published_at.desc()).offset(skip).limit(limit).all()
     
     return posts
 
@@ -83,10 +73,11 @@ def get_posts_by_category(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=100)
 ):
-    """Get posts by category"""
+    """Get published posts by category"""
     posts = db.query(Post).filter(
+        Post.status == "published",
         Post.category_id == category_id
-    ).order_by(Post.updated_at.desc()).offset(skip).limit(limit).all()
+    ).order_by(Post.published_at.desc()).offset(skip).limit(limit).all()
 
     return posts
 

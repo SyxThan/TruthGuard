@@ -28,10 +28,14 @@ class PostBase(BaseModel):
 
 
 class PostCreate(PostBase):
+    url: Optional[str] = None
+    images: Optional[List[str]] = []
+
+class PostCreateCheck(BaseModel):
+    title: str 
+    content: str 
     
-    images: Optional[List[str]] = None
-    user_id: int 
-    
+
 
 
 class PostUpdate(BaseModel):
@@ -59,16 +63,21 @@ class PostResponse(PostBase):
     model_config = ConfigDict(from_attributes=True)
 
 
-class PostSimple(PostBase):
-   
-
+class PostSimple(BaseModel):
+    """Simple post representation for listing"""
+    
     id: int
     user_id: int
+    title: str
+    content: str
+    category_id: Optional[int] = None
+    status: str = "draft"
     published_at: Optional[datetime] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
+    credibility_score: Optional[float] = None
+    credibility_label: Optional[str] = None
     
-
     model_config = ConfigDict(from_attributes=True)
 
 

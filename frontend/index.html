@@ -109,196 +109,42 @@
                 </button>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- News Card 1 - REAL -->
-                <article class="glass-card rounded-3xl overflow-hidden shine-effect">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=450&fit=crop" alt="News" class="w-full h-56 object-cover">
-                        <span class="badge-real absolute top-4 right-4 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
-                            <i data-feather="check-circle" class="w-4 h-4"></i>
-                            THẬT
-                        </span>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-lg text-xs font-bold">Công nghệ</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3 leading-tight">Đột phá trong năng lượng tái tạo</h3>
-                        <p class="text-gray-600 mb-4 leading-relaxed">Các nhà khoa học đạt hiệu suất kỷ lục trong công nghệ pin mặt trời có thể cách mạng hóa năng lượng sạch.</p>
-                        <div class="flex items-center justify-between text-sm text-gray-500">
-                            <div class="flex items-center gap-2">
-                                <i data-feather="clock" class="w-4 h-4"></i>
-                                <span>2 giờ trước</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <i data-feather="user" class="w-4 h-4"></i>
-                                <span class="font-semibold">VnExpress</span>
-                            </div>
-                            <a href="article.html" class="inline-flex items-center gap-2 text-emerald-600 font-semibold hover:gap-3 transition-all group">
-                            Đọc thêm
-                            <i data-feather="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-                            </a>
+            <!-- Articles container - populated by JavaScript -->
+            <div id="news-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Skeleton loading (shown while fetching) -->
+                <div class="skeleton-loader animate-pulse">
+                    <div class="glass-card rounded-3xl overflow-hidden">
+                        <div class="w-full h-56 bg-gray-300"></div>
+                        <div class="p-6 space-y-4">
+                            <div class="h-4 bg-gray-300 rounded w-1/3"></div>
+                            <div class="h-6 bg-gray-300 rounded w-3/4"></div>
+                            <div class="h-4 bg-gray-300 rounded w-full"></div>
+                            <div class="h-4 bg-gray-300 rounded w-5/6"></div>
                         </div>
                     </div>
-                </article>
-
-                <!-- News Card 2 - FAKE -->
-                <article class="glass-card rounded-3xl overflow-hidden shine-effect">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=800&h=450&fit=crop" alt="News" class="w-full h-56 object-cover">
-                        <span class="badge-fake absolute top-4 right-4 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
-                            <i data-feather="x-circle" class="w-4 h-4"></i>
-                            GIẢ
-                        </span>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-red-100 text-red-700 px-3 py-1 rounded-lg text-xs font-bold">Chính trị</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3 leading-tight">Chính trị gia bị bắt trong bê bối</h3>
-                        <p class="text-gray-600 mb-4 leading-relaxed">Cáo buộc về quan chức chính phủ nổi lên, nhưng xác minh cho thấy bằng chứng bị thao túng.</p>
-                        <div class="flex items-center justify-between text-sm text-gray-500">
-                            <div class="flex items-center gap-2">
-                                <i data-feather="clock" class="w-4 h-4"></i>
-                                <span>5 giờ trước</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <i data-feather="user" class="w-4 h-4"></i>
-                                <span class="font-semibold">Nguồn không rõ</span>
-                            </div>
-                            <a href="article.html" class="inline-flex items-center gap-2 text-emerald-600 font-semibold hover:gap-3 transition-all group">
-                            Đọc thêm
-                            <i data-feather="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-                            </a>
+                </div>
+                <div class="skeleton-loader animate-pulse">
+                    <div class="glass-card rounded-3xl overflow-hidden">
+                        <div class="w-full h-56 bg-gray-300"></div>
+                        <div class="p-6 space-y-4">
+                            <div class="h-4 bg-gray-300 rounded w-1/3"></div>
+                            <div class="h-6 bg-gray-300 rounded w-3/4"></div>
+                            <div class="h-4 bg-gray-300 rounded w-full"></div>
+                            <div class="h-4 bg-gray-300 rounded w-5/6"></div>
                         </div>
                     </div>
-                </article>
-
-                <!-- News Card 3 - UNCERTAIN -->
-                <article class="glass-card rounded-3xl overflow-hidden shine-effect">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&h=450&fit=crop" alt="News" class="w-full h-56 object-cover">
-                        <span class="badge-uncertain absolute top-4 right-4 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
-                            <i data-feather="help-circle" class="w-4 h-4"></i>
-                            CHƯA RÕ
-                        </span>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-lg text-xs font-bold">Sức khỏe</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3 leading-tight">Nghiên cứu sức khỏe mới</h3>
-                        <p class="text-gray-600 mb-4 leading-relaxed">Nghiên cứu gây tranh cãi gợi ý lợi ích tiềm năng của chất bổ sung phổ biến, nhưng cần thêm nghiên cứu.</p>
-                        <div class="flex items-center justify-between text-sm text-gray-500">
-                            <div class="flex items-center gap-2">
-                                <i data-feather="clock" class="w-4 h-4"></i>
-                                <span>1 ngày trước</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <i data-feather="user" class="w-4 h-4"></i>
-                                <span class="font-semibold">Tạp chí Y học</span>
-                            </div>
-                            <a href="article.html" class="inline-flex items-center gap-2 text-emerald-600 font-semibold hover:gap-3 transition-all group">
-                            Đọc thêm
-                            <i data-feather="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-                            </a>
+                </div>
+                <div class="skeleton-loader animate-pulse">
+                    <div class="glass-card rounded-3xl overflow-hidden">
+                        <div class="w-full h-56 bg-gray-300"></div>
+                        <div class="p-6 space-y-4">
+                            <div class="h-4 bg-gray-300 rounded w-1/3"></div>
+                            <div class="h-6 bg-gray-300 rounded w-3/4"></div>
+                            <div class="h-4 bg-gray-300 rounded w-full"></div>
+                            <div class="h-4 bg-gray-300 rounded w-5/6"></div>
                         </div>
                     </div>
-                </article>
-
-                <!-- More News Cards -->
-                <article class="glass-card rounded-3xl overflow-hidden shine-effect">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=450&fit=crop" alt="News" class="w-full h-56 object-cover">
-                        <span class="badge-real absolute top-4 right-4 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
-                            <i data-feather="check-circle" class="w-4 h-4"></i>
-                            THẬT
-                        </span>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-xs font-bold">Kinh doanh</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3 leading-tight">Thị trường chứng khoán tăng mạnh</h3>
-                        <p class="text-gray-600 mb-4 leading-relaxed">Các chỉ số chính tăng điểm sau thông báo chính sách kinh tế mới của chính phủ.</p>
-                        <div class="flex items-center justify-between text-sm text-gray-500">
-                            <div class="flex items-center gap-2">
-                                <i data-feather="clock" class="w-4 h-4"></i>
-                                <span>3 giờ trước</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <i data-feather="user" class="w-4 h-4"></i>
-                                <span class="font-semibold">Cafef</span>
-                            </div>
-                            <a href="article.html" class="inline-flex items-center gap-2 text-emerald-600 font-semibold hover:gap-3 transition-all group">
-                            Đọc thêm
-                            <i data-feather="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="glass-card rounded-3xl overflow-hidden shine-effect">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=450&fit=crop" alt="News" class="w-full h-56 object-cover">
-                        <span class="badge-real absolute top-4 right-4 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
-                            <i data-feather="check-circle" class="w-4 h-4"></i>
-                            THẬT
-                        </span>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-lg text-xs font-bold">Khoa học</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3 leading-tight">Phát hiện hành tinh mới giống Trái Đất</h3>
-                        <p class="text-gray-600 mb-4 leading-relaxed">Các nhà thiên văn học phát hiện ngoại hành tinh trong vùng có thể ở được với điều kiện tương tự Trái Đất.</p>
-                        <div class="flex items-center justify-between text-sm text-gray-500">
-                            <div class="flex items-center gap-2">
-                                <i data-feather="clock" class="w-4 h-4"></i>
-                                <span>6 giờ trước</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <i data-feather="user" class="w-4 h-4"></i>
-                                <span class="font-semibold">NASA</span>
-                            </div>
-                            <a href="article.html" class="inline-flex items-center gap-2 text-emerald-600 font-semibold hover:gap-3 transition-all group">
-                            Đọc thêm
-                            <i data-feather="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="glass-card rounded-3xl overflow-hidden shine-effect">
-                    <div class="relative">
-                        <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&h=450&fit=crop" alt="News" class="w-full h-56 object-cover">
-                        <span class="badge-fake absolute top-4 right-4 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
-                            <i data-feather="x-circle" class="w-4 h-4"></i>
-                            GIẢ
-                        </span>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-lg text-xs font-bold">Thể thao</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3 leading-tight">Cầu thủ nổi tiếng chuyển nhượng</h3>
-                        <p class="text-gray-600 mb-4 leading-relaxed">Tin đồn về thương vụ chuyển nhượng kỷ lục không được xác nhận bởi các nguồn chính thức.</p>
-                        <div class="flex items-center justify-between text-sm text-gray-500">
-                            <div class="flex items-center gap-2">
-                                <i data-feather="clock" class="w-4 h-4"></i>
-                                <span>4 giờ trước</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <i data-feather="user" class="w-4 h-4"></i>
-                                <span class="font-semibold">Nguồn tin đồn</span>
-                            </div>
-                            <a href="article.html" class="inline-flex items-center gap-2 text-emerald-600 font-semibold hover:gap-3 transition-all group">
-                            Đọc thêm
-                            <i data-feather="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
-                            </a>
-                        </div>
-                    </div>
-                </article>
+                </div>
             </div>
         </section>
         
@@ -449,17 +295,10 @@
         });
         
     </script>
-    <!-- Script để load navigation -->
-    <script>
-        fetch('navigation.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('nav-placeholder').innerHTML = data;
-                // Khởi tạo lại feather icons sau khi load nav
-                if (typeof feather !== 'undefined') {
-                    feather.replace();
-                }
-            });
-    </script>
+    <!-- Scripts untuk navigation dan API -->
+    <script src="./assets/js/api.js"></script>
+    <script src="./assets/js/utils.js"></script>
+    <script src="./assets/js/nav.js"></script>
+    <script src="./assets/js/index.js"></script>
 </body>
 </html>

@@ -17,38 +17,44 @@ def get_db():
         db.close()
 
 
-@router.get('/my-posts', response_model=List[PostSimple])
+@router.get('/user/my-posts', response_model=List[PostSimple])
 def get_my_posts(
     db: Session = Depends(get_db),
-    user_id: int = Query(..., description="Current user ID"),
     skip: int = Query(0, ge=0),
-    limit: int = Query(100, ge=1, le=100),
+    limit: int = Query(1000, ge=1, le=1000),
     current_user: object = Depends(get_current_user)
 ):
     """Get my posts"""
     
-    if hasattr(current_user, "id") and current_user.id != user_id:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
     posts = db.query(Post).filter(
-        Post.user_id == user_id
+        Post.user_id == current_user.id
     ).order_by(Post.updated_at.desc()).offset(skip).limit(limit).all()
     return posts
 
 
-@router.get('/check-history', response_model=List[PostSimple])
-def get_check_history(
+@router.delete('/user/delete/{post_id}')
+def delete_my_post(
+    post_id: int,
     db: Session = Depends(get_db),
-    user_id: int = Query(..., description="Current user ID"),
-    skip: int = Query(0, ge=0),
-    limit: int = Query(100, ge=1, le=100),
     current_user: object = Depends(get_current_user)
 ):
-    """Get check history - Posts that have been analyzed for fake news"""
+    """Delete my own post - only owner can delete"""
     
-    if hasattr(current_user, "id") and current_user.id != user_id:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
-    posts = db.query(Post).filter(
-        Post.user_id == user_id,
-        Post.credibility_label.isnot(None)
-    ).order_by(Post.created_at.desc()).offset(skip).limit(limit).all()
-    return posts
+    post = db.query(Post).filter(Post.id == post_id).first()
+    
+    if not post:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Bài viết không tồn tại"
+        )
+    
+    if post.user_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Bạn không có quyền xóa bài viết này"
+        )
+    
+    db.delete(post)
+    db.commit()
+    
+    return {"message": "Bài viết đã được xóa thành công"}
