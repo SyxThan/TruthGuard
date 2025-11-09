@@ -38,7 +38,7 @@ def delete_my_post(
     db: Session = Depends(get_db),
     current_user: object = Depends(get_current_user)
 ):
-    """Delete my own post - only owner can delete"""
+
     
     post = db.query(Post).filter(Post.id == post_id).first()
     

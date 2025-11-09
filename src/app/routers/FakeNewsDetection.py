@@ -41,17 +41,6 @@ def user_share_post(
     current_user: User = Depends(get_current_user),  
     db: Session = Depends(get_db)
 ):
-    """
-    Endpoint cho user share bài viết.
-    - Tự động lấy user_id từ token
-    - Nhận image URLs (đã upload trước qua /images/upload-multiple)
-    - Nếu confidence_score >= 75%: status = "published"
-    - Nếu < 75%: status = "draft"
-    
-    Workflow:
-    1. Frontend: Upload ảnh qua /images/upload-multiple → Nhận URLs
-    2. Frontend: Gọi /user-share với URLs đó
-    """
     if not post_data.content:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -74,10 +63,10 @@ def user_share_post(
     classes = loaded_model.classes_
     proba_dict = {}
     for idx, class_lb in enumerate(classes):
-        label_name = "Real" if class_lb == 1 else "Fake"
+        label_name = "Real" if class_lb == 0 else "Fake"
         proba_dict[label_name] = float(prediction_proba[idx])
     
-    is_fake = bool(prediction == 0)
+    is_fake = bool(prediction == 1)
     label = "Fake" if is_fake else "Real"
     idx = list(classes).index(prediction)
     dscore = float(prediction_proba[idx])

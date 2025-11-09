@@ -119,15 +119,6 @@ def preprocess_pipeline(text, remove_stop=True):
 # ===================================================================
 
 def check_label(is_fake: bool, confidence_score: float) -> str:
-    """
-    Xác định mức độ tin cậy: Thật, Chưa Rõ, Giả
-    
-    Logic:
-    - Nếu confidence >= 70%:
-        + Fake → "Giả"
-        + Real → "Thật"
-    - Nếu confidence < 70%: "Chưa Rõ"
-    """
     if confidence_score >= 0.7:
         return "Giả" if is_fake else "Thật"
     else:

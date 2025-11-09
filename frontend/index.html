@@ -42,7 +42,7 @@
         <section class="mb-16 fade-in-up" style="animation-delay: 0.2s;">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div class="stat-card glass-card p-6 rounded-2xl text-center">
-                    <div class="text-4xl font-black text-emerald-600 mb-2">15,432</div>
+                    <div class="text-4xl font-black text-emerald-600 mb-2">36+</div>
                     <div class="text-gray-600 font-semibold">Tin đã kiểm</div>
                 </div>
                 <div class="stat-card glass-card p-6 rounded-2xl text-center">
@@ -50,7 +50,7 @@
                     <div class="text-gray-600 font-semibold">Độ chính xác</div>
                 </div>
                 <div class="stat-card glass-card p-6 rounded-2xl text-center">
-                    <div class="text-4xl font-black text-purple-600 mb-2">50K+</div>
+                    <div class="text-4xl font-black text-purple-600 mb-2">36+</div>
                     <div class="text-gray-600 font-semibold">Người dùng</div>
                 </div>
                 <div class="stat-card glass-card p-6 rounded-2xl text-center">
@@ -103,7 +103,7 @@
         <section class="fade-in-up" style="animation-delay: 0.5s;">
             <div class="flex items-center justify-between mb-8">
                 <h2 class="text-3xl font-bold text-gray-800">Tin tức mới nhất</h2>
-                <button class="text-emerald-600 font-semibold flex items-center gap-2 hover:gap-3 transition-all">
+                <button id="view-all-btn" class="text-emerald-600 font-semibold flex items-center gap-2 hover:gap-3 transition-all">
                     Xem tất cả
                     <i data-feather="arrow-right" class="w-5 h-5"></i>
                 </button>
@@ -146,6 +146,8 @@
                     </div>
                 </div>
             </div>
+            <!-- Pagination Container -->
+            <div id="pagination-container" class="mt-10 flex justify-center"></div>
         </section>
         
 

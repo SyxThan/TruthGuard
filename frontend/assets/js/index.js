@@ -1,18 +1,22 @@
 // Index/Home page - Load and display news (index.html)
 class NewsManager {
     constructor() {
-        this.currentPage = 0;
+        this.currentPage = 1; // 1-based
         this.pageSize = 6;
         this.currentCategory = null;
         this.searchQuery = null;
         this.loadedIds = new Set();
+        this.lastPageReached = false;
+        this.lastKnownLastPage = null; // set when last page known
     }
 
     async loadPublishedNews() {
         try {
             this.showSkeletonLoading();
-            const posts = await api.getPublishedPosts(this.currentPage * this.pageSize, this.pageSize);
+            const offset = (this.currentPage - 1) * this.pageSize;
+            const posts = await api.getPublishedPosts(offset, this.pageSize);
             this.displayNews(posts);
+            this.updatePaginationState(posts);
         } catch (error) {
             console.error('Error loading news:', error);
             this.displayError('❌ Lỗi tải tin tức. Vui lòng tải lại trang.');
@@ -24,8 +28,10 @@ class NewsManager {
         try {
             this.showSkeletonLoading();
             this.currentCategory = categoryId;
-            const posts = await api.getPostsByCategory(categoryId, this.currentPage * this.pageSize, this.pageSize);
+            const offset = (this.currentPage - 1) * this.pageSize;
+            const posts = await api.getPostsByCategory(categoryId, offset, this.pageSize);
             this.displayNews(posts);
+            this.updatePaginationState(posts);
         } catch (error) {
             console.error('Error loading category news:', error);
             this.displayError('❌ Lỗi tải tin theo danh mục. Vui lòng thử lại.');
@@ -37,8 +43,10 @@ class NewsManager {
         try {
             this.showSkeletonLoading();
             this.searchQuery = query;
-            const posts = await api.searchPosts(query, this.currentPage * this.pageSize, this.pageSize);
+            const offset = (this.currentPage - 1) * this.pageSize;
+            const posts = await api.searchPosts(query, offset, this.pageSize);
             this.displayNews(posts);
+            this.updatePaginationState(posts);
         } catch (error) {
             console.error('Error searching news:', error);
             this.displayError(`❌ Lỗi tìm kiếm: "${query}". Vui lòng thử lại.`);
@@ -87,7 +95,7 @@ class NewsManager {
         `;
     }
 
-    displayNews(posts) {
+    displayNews(posts, append = false) {
         const container = document.getElementById('news-container');
         if (!container) return;
 
@@ -115,8 +123,13 @@ class NewsManager {
             .map(post => this.createNewsCard(post))
             .join('');
 
-        container.innerHTML = htmlCards;
+        if (append) {
+            container.insertAdjacentHTML('beforeend', htmlCards);
+        } else {
+            container.innerHTML = htmlCards;
+        }
         feather.replace();
+        this.renderPagination();
 
         container.querySelectorAll('article').forEach(card => {
             card.style.opacity = '0';
@@ -132,6 +145,52 @@ class NewsManager {
                 }, index * 100);
             });
         }, 0);
+    }
+
+    updatePaginationState(posts) {
+        // Determine if last page
+        this.lastPageReached = posts.length < this.pageSize;
+        if (this.lastPageReached) {
+            this.lastKnownLastPage = Math.max(this.lastKnownLastPage || 0, this.currentPage);
+        }
+    }
+
+    renderPagination() {
+        const container = document.getElementById('pagination-container');
+        if (!container) return;
+        const current = this.currentPage;
+        const total = this.lastKnownLastPage || current + (this.lastPageReached ? 0 : 1); // optimistic next
+
+        const pages = [];
+        const add = p => { if (p >= 1 && !pages.includes(p)) pages.push(p); };
+        add(1);
+        if (current - 1 > 2) pages.push('...left');
+        add(current - 1);
+        add(current);
+        add(current + 1);
+        if (total - (current + 1) > 1) pages.push('...right');
+        if (this.lastKnownLastPage) add(this.lastKnownLastPage);
+
+        const btnClass = 'mx-1 px-3 py-2 rounded-lg border text-sm font-semibold transition';
+        const activeClass = 'bg-emerald-600 text-white border-emerald-600';
+        const normalClass = 'bg-white text-emerald-700 border-emerald-200 hover:bg-emerald-50';
+        const disabledClass = 'opacity-50 cursor-not-allowed';
+
+        const prevDisabled = current === 1;
+        const nextDisabled = !!this.lastPageReached && (!!this.lastKnownLastPage ? current >= this.lastKnownLastPage : true);
+
+        let html = '';
+        html += `<button data-action="prev" class="${btnClass} ${prevDisabled ? disabledClass : normalClass}">← Previous</button>`;
+        pages.forEach(p => {
+            if (typeof p === 'string') {
+                html += `<span class="mx-1 px-2 text-gray-400">…</span>`;
+            } else {
+                const isActive = p === current;
+                html += `<button data-page="${p}" class="${btnClass} ${isActive ? activeClass : normalClass}">${p}</button>`;
+            }
+        });
+        html += `<button data-action="next" class="${btnClass} ${nextDisabled ? disabledClass : normalClass}">Next →</button>`;
+        container.innerHTML = html;
     }
 
     displayError(message) {
@@ -162,7 +221,7 @@ class NewsManager {
         return `
             <article class="glass-card rounded-3xl overflow-hidden shine-effect">
                 <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=450&fit=crop" alt="News" class="w-full h-56 object-cover">
+                    <img src="${this.getThumbnailUrl(post.category_id)}" onerror="this.src='./assets/img/thumbnails/default.jpg'" alt="${categoryName}" class="w-full h-56 object-cover">
                     <span class="${badgeClass} absolute top-4 right-4 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2">
                         <i data-feather="${badgeIcon}" class="w-4 h-4"></i>
                         ${badgeText}
@@ -204,9 +263,48 @@ class NewsManager {
         };
         return categories[categoryId] || '📌 Khác';
     }
+
+    getThumbnailUrl(categoryId) {
+        const thumbnails = {
+            1: './assets/img/thumbnails/1.jpg',
+            2: './assets/img/thumbnails/2.jpg',
+            3: './assets/img/thumbnails/3.jpg',
+            4: './assets/img/thumbnails/4.jpg',
+            5: './assets/img/thumbnails/5.jpg',
+            6: './assets/img/thumbnails/6.jpg',
+        };
+        return thumbnails[categoryId] || './assets/img/thumbnails/default.jpg';
+    }
 }
 
 const newsManager = new NewsManager();
+
+NewsManager.prototype.resetAll = function () {
+    this.currentPage = 1;
+    this.searchQuery = null;
+    this.currentCategory = null;
+    this.lastPageReached = false;
+    this.lastKnownLastPage = null;
+    const searchInput = document.querySelector('.search-input');
+    if (searchInput) searchInput.value = '';
+    document.querySelectorAll('.category-pill').forEach((b, i) => b.classList.toggle('active', i === 0));
+    this.loadPublishedNews();
+};
+
+NewsManager.prototype.goToPage = function (page) {
+    if (page < 1) return;
+    if (this.lastKnownLastPage && page > this.lastKnownLastPage) return;
+    this.currentPage = page;
+    if (this.searchQuery) {
+        this.searchNews(this.searchQuery);
+    } else if (this.currentCategory) {
+        this.loadNewsByCategory(this.currentCategory);
+    } else {
+        this.loadPublishedNews();
+    }
+    // Removed auto scroll for better UX on page change
+    Toast.show(`✅ Went to page ${page}`, 'info');
+};
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Load published news on page load
@@ -220,6 +318,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         searchBtn.addEventListener('click', () => {
             const query = searchInput.value.trim();
             if (query) {
+                newsManager.currentPage = 1;
+                newsManager.lastKnownLastPage = null;
+                newsManager.lastPageReached = false;
                 newsManager.searchNews(query);
             } else {
                 Toast.show('⚠️ Vui lòng nhập từ khóa tìm kiếm', 'warning');
@@ -230,10 +331,37 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (e.key === 'Enter') {
                 const query = searchInput.value.trim();
                 if (query) {
+                    newsManager.currentPage = 1;
+                    newsManager.lastKnownLastPage = null;
+                    newsManager.lastPageReached = false;
                     newsManager.searchNews(query);
                 } else {
                     Toast.show('⚠️ Vui lòng nhập từ khóa tìm kiếm', 'warning');
                 }
+            }
+        });
+    }
+
+    // View all button logic
+    const viewAllBtn = document.getElementById('view-all-btn');
+    if (viewAllBtn) {
+        viewAllBtn.addEventListener('click', () => newsManager.resetAll());
+    }
+
+    // Pagination click handling (event delegation)
+    const paginationContainer = document.getElementById('pagination-container');
+    if (paginationContainer) {
+        paginationContainer.addEventListener('click', (e) => {
+            const target = e.target.closest('button');
+            if (!target) return;
+            const page = target.getAttribute('data-page');
+            const action = target.getAttribute('data-action');
+            if (page) {
+                newsManager.goToPage(parseInt(page, 10));
+            } else if (action === 'prev') {
+                if (newsManager.currentPage > 1) newsManager.goToPage(newsManager.currentPage - 1);
+            } else if (action === 'next') {
+                if (!newsManager.lastPageReached) newsManager.goToPage(newsManager.currentPage + 1);
             }
         });
     }
@@ -246,10 +374,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             this.classList.add('active');
 
             if (index === 0) {
-                newsManager.currentPage = 0;
+                newsManager.currentPage = 1;
+                newsManager.lastKnownLastPage = null;
+                newsManager.lastPageReached = false;
                 newsManager.loadPublishedNews();
+                newsManager.searchQuery = null;
+                newsManager.currentCategory = null;
             } else {
-                newsManager.currentPage = 0;
+                newsManager.currentPage = 1;
+                newsManager.currentCategory = index;
+                newsManager.searchQuery = null;
+                newsManager.lastKnownLastPage = null;
+                newsManager.lastPageReached = false;
                 newsManager.loadNewsByCategory(index);
             }
         });

@@ -35,8 +35,6 @@ def get_db():
         db.close()
 
 
-
-
 @router.post('/analyze', response_model=FakeNewsCheckResponse)
 def analyze_post(
     post_data: PostCreateCheck,
@@ -65,10 +63,10 @@ def analyze_post(
     classes = loaded_model.classes_
     proba_dict = {}
     for idx, class_lb in enumerate(classes):
-        label_name = "Real" if class_lb == 1 else "Fake"
+        label_name = "Real" if class_lb == 0 else "Fake"
         proba_dict[label_name] = float(prediction_proba[idx])
     
-    is_fake = bool(prediction == 0)
+    is_fake = bool(prediction == 1)
     label = "Fake" if is_fake else "Real"
 
     idx = list(classes).index(prediction)

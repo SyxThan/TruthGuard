@@ -20,19 +20,15 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
 def hash_password(password: str) -> str:
-    """Hash password with bcrypt (truncate >72 bytes per bcrypt spec)."""
-    password_bytes = password.encode('utf-8')
-    if len(password_bytes) > 72:
-        password = password_bytes[:72].decode('utf-8', errors='ignore')
+   
     return pwd_context.hash(password)
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     
-    password_bytes = plain_password.encode('utf-8')
-    if len(password_bytes) > 72:
-        plain_password = password_bytes[:72].decode('utf-8', errors='ignore')
     return pwd_context.verify(plain_password, hashed_password)
 
 
@@ -148,7 +144,7 @@ def login_for_access_token(
     if not user or not verify_password(form_data.password, user.password_hash):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password"
+            detail="Sai username hoặc mật khẩu"
         )
     access_token = create_access_token({"sub": str(user.id), "username": user.username})
     return {"access_token": access_token, "token_type": "bearer"}

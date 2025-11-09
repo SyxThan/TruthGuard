@@ -6,14 +6,14 @@ class ArticleManager {
             this.displayArticle(post);
         } catch (error) {
             console.error('Error loading article:', error);
-            Toast.show('❌ Lỗi tải bài viết. Vui lòng tải lại trang.', 'error');
+            Toast.show(' Lỗi tải bài viết. Vui lòng tải lại trang.', 'error');
         }
     }
 
     displayArticle(post) {
         const isFake = post.credibility_label === 'Giả';
         const credibilityPercentage = post.credibility_score 
-            ? Math.round(post.credibility_score * 100) 
+            ? Math.round(post.credibility_score) 
             : 0;
 
         // Update page title
@@ -29,6 +29,12 @@ class ArticleManager {
         const verificationBadge = document.querySelector('.verification-badge');
         if (verificationBadge) {
             const categoryName = this.getCategoryName(post.category_id);
+            const heroImg = document.querySelector('header img');
+            if (heroImg) {
+                heroImg.src = this.getThumbnailUrl(post.category_id);
+                heroImg.alt = categoryName;
+                heroImg.onerror = () => { heroImg.src = './assets/img/thumbnails/default.jpg'; };
+            }
             verificationBadge.innerHTML = `
                 <div class="flex items-start gap-4">
                     <div class="flex-shrink-0">
@@ -68,7 +74,7 @@ class ArticleManager {
             `;
         }
 
-        // Update article content
+        
         const articleContent = document.querySelector('.prose');
         if (articleContent) {
             articleContent.innerHTML = `
@@ -93,6 +99,17 @@ class ArticleManager {
     }
 }
 
+ArticleManager.prototype.getThumbnailUrl = function(categoryId) {
+    const thumbnails = {
+        1: './assets/img/thumbnails/1.jpg', // Politics
+        2: './assets/img/thumbnails/2.jpg', // Health
+        3: './assets/img/thumbnails/3.jpg', // Technology
+        4: './assets/img/thumbnails/4.jpg', // Science
+        5: './assets/img/thumbnails/5.jpg', // Business
+        6: './assets/img/thumbnails/6.jpg', // Sports
+    };
+    return thumbnails[categoryId] || './assets/img/thumbnails/default.jpg';
+};
 const articleManager = new ArticleManager();
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -115,13 +132,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (likeBtn) {
         likeBtn.addEventListener('click', () => {
-            Toast.show('👍 Bạn đã thích bài viết này!', 'success');
+            Toast.show(' Bạn đã thích bài viết này!', 'success');
         });
     }
 
     if (commentBtn) {
         commentBtn.addEventListener('click', () => {
-            Toast.show('💬 Tính năng bình luận sẽ ra mắt sớm!', 'info');
+            Toast.show(' Tính năng bình luận sẽ ra mắt sớm!', 'info');
         });
     }
 
@@ -135,14 +152,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
             } else {
                 navigator.clipboard.writeText(url);
-                Toast.show('✅ Đã sao chép liên kết!', 'success');
+                Toast.show('Đã sao chép liên kết!', 'success');
             }
         });
     }
 
     if (reportBtn) {
         reportBtn.addEventListener('click', () => {
-            Toast.show('🚩 Bạn đã báo cáo bài viết này. Cảm ơn phản hồi!', 'info');
+            Toast.show(' Bạn đã báo cáo bài viết này. Cảm ơn phản hồi!', 'info');
         });
     }
 });

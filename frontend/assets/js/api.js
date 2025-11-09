@@ -6,7 +6,6 @@ class APIClient {
         this.token = localStorage.getItem('access_token');
     }
 
-    // Get fresh token on each request
     getToken() {
         return localStorage.getItem('access_token');
     }
@@ -15,7 +14,7 @@ class APIClient {
         const headers = {
             'Content-Type': 'application/json',
         };
-        const token = this.getToken(); // Always get fresh token
+        const token = this.getToken(); 
         if (token && token.trim() !== '') {
             headers['Authorization'] = `Bearer ${token}`;
         }
@@ -64,12 +63,12 @@ class APIClient {
                     url: url
                 });
                 
-                // Handle 401 specifically
+                
                 if (response.status === 401) {
                     throw new Error(`401: ${errorMessage}`);
                 }
                 
-                // Handle 422 with details
+                
                 if (response.status === 422) {
                     console.error('Validation Error (422):', errorData);
                     throw new Error(`422: ${JSON.stringify(errorData)}`);
@@ -78,7 +77,7 @@ class APIClient {
                 throw new Error(errorMessage);
             }
             
-            // Handle DELETE requests or responses with no content
+            
             const contentType = response.headers.get('content-type');
             if (response.status === 204 || !contentType || !contentType.includes('application/json')) {
                 return response.status === 204 ? null : await response.text().then(text => text ? JSON.parse(text) : null);
@@ -118,7 +117,7 @@ class APIClient {
                 throw new Error(errorMessage);
             }
             
-            // Handle DELETE requests or responses with no content
+
             const contentType = response.headers.get('content-type');
             if (response.status === 204 || !contentType || !contentType.includes('application/json')) {
                 return response.status === 204 ? null : await response.text().then(text => text ? JSON.parse(text) : null);
@@ -131,7 +130,7 @@ class APIClient {
         }
     }
 
-    // User endpoints
+  
     async register(userData) {
         return this.request('/auth/register', {
             method: 'POST',
